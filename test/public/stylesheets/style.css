@@ -9,9 +9,17 @@ a {
 #signup, #signin {
   width: 640px;
   margin: auto;
+  padding-top: 64px;
+  background-color: #F8F9FA;
 }
 
 #main {
   width: 960px;
   margin: auto;
+  padding-top: 24px;
+}
+
+#drawer-1, #drawer-2, #drawer-3, #drawer-4 {
+  float: left;
+  margin-bottom: 15px;
 }
