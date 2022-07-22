@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/book/delete/:id', (req, res) => {
+router.get('/book/:id', (req, res) => {
   if(req.session.uid) {
     connection.query('SELECT * FROM books WHERE id=?;',[req.params.id], (err1, res1, fld1) => {
       if(err1) {
