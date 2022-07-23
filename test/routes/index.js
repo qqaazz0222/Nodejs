@@ -61,7 +61,7 @@ router.get("/book/:id", (req, res) => {
         if (err1) {
           throw err1;
         } else {
-          res.render("book", { book: res1[0], signinStatus: true });
+          res.render("book", { bookid: req.params.id ,book: res1[0], signinStatus: true });
         }
       }
     );

@@ -19,7 +19,10 @@
                             </h3>
                         </div>
                         <div class="row" style="position: absolute; bottom: 0;">
-                            <form action="order" method="post">
+                            <form method="post">
+                                <input type="text" name="bookid" value="<%= book.id %>" style="display: none;">
+                                <input type="text" name="booktitle" value="<%= book.title %>" style="display: none;">
+                                <input type="text" name="bookprice" value="<%= book.price %>" style="display: none;">
                                 <div class="row">
                                     <div class="col">
                                         <h5 style="line-height: 38px; vertical-align: middle;">수량</h5>
@@ -28,7 +31,7 @@
                                         <div class="input-group mb-4">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 onclick="decrease()">-</button>
-                                            <input id="amount" type="text" class="form-control" value="0"
+                                            <input id="amount" name="amount" type="text" class="form-control" value="0"
                                                 style="text-align: center;">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 onclick="increase()">+</button>
@@ -37,14 +40,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <button class="btn btn-outline-primary btn-lg" type="submit" name="action"
+                                        <button class="btn btn-outline-primary btn-lg" type="submit" value="order" onclick="javascript: form.action='/order';"
                                             style="width: 100%;"><span class="material-symbols-outlined"
                                                 style="vertical-align: middle; line-height: normal;">navigate_next</span>
                                             구매하기</button>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary btn-lg" type="submit" name="add_cart"
-                                            value="update" style="width: 100%;"><span class="material-symbols-outlined"
+                                        <button class="btn btn-primary btn-lg" type="submit" value="add_cart" onclick="javascript: form.action='/add_cart';"
+                                            style="width: 100%;"><span class="material-symbols-outlined"
                                                 style="vertical-align: middle; line-height: normal;">add_shopping_cart</span>
                                             장바구니</button>
                                     </div>
@@ -98,19 +101,19 @@
                         sollicitudin sapien fermentum, varius nibh in, gravida justo.</p>
                 </div>
             </div>
-        <script>
-            var amount = 0;
-            function decrease() {
-                if (amount > 0) {
-                    amount = amount - 1;
+            <script>
+                var amount = 0;
+                function decrease() {
+                    if (amount > 0) {
+                        amount = amount - 1;
+                        document.querySelector("#amount").value = amount;
+                    }
+                };
+                function increase() {
+                    amount = amount + 1;
                     document.querySelector("#amount").value = amount;
-                }
-            };
-            function increase() {
-                amount = amount + 1;
-                document.querySelector("#amount").value = amount;
-            };
-        </script>
+                };
+            </script>
     </body>
 
 </html>

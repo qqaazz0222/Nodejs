@@ -5,7 +5,24 @@
     <body>
         <% include ./nav.ejs %>
             <div id="main">
+                <div id="check_item">
+                    <button onclick="">주소정하기</button>
+                </div>
+                <div id="check_address">
+                    <button>카드정하기</button>
+                </div>
+                <div id="check_card">
+                    <button>주문확인</button>
+                </div>
+                <div id="check_order">
+                    <button>주문하기</button>
+                </div>
                 <h1>order</h1>
+                <p><%= book.id %></p>
+                <p><%= book.title %></p>
+                <p><%= book.price %></p>
+                <p><%= date %></p>
+                <p><%= amount %></p>
             </div>
     </body>
 
