@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
-    <% include ./head.ejs %>
+<% include ./head.ejs %>
+
     <body>
-    <% include ./nav.ejs %>
-    <h1><%= message %></h1>
-    <h2><%= error.status %></h2>
-    <pre><%= error.stack %></pre>
+        <% include ./nav.ejs %>
+            <h1>
+                <%= message %>
+            </h1>
+            <h2>
+                <%= error.status %>
+            </h2>
+            <pre><%= error.stack %></pre>
     </body>

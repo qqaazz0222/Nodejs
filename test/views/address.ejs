@@ -1,43 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <% include ./head.ejs %>
-  <body>
-    <% include ./nav.ejs %>
-    <div id="main">
-      <h3>새로운 배송지 추가하기</h3>
-      <form class="d-flex" action="address" method="post">
-        <div class="input-group">
-          <span class="input-group-text"><span class="material-symbols-outlined" style="vertical-align: middle;">home</span></span>
-          <input class="form-control" name="zipcode" type="text" placeholder="우편번호" >
-          <input class="form-control" name="main" type="text" placeholder="기본주소">
-          <input class="form-control" name="detail" type="text" placeholder="상세주소">
-          <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: 0;">+ 추가</button>
-        </div>
-      </form><br>
-      <h3>배송지 목록</h3>
-      <% for(var i=0; i < num; i++) { %>
-        <div class="card">
-          <div class="card-header">
-            Address <%= i+1 %>
-          </div>
-          <div class="card-body">
-            <form action="address/delete/<%= address[i].id %>" method="post">
-              <button type="submit" class="btn btn-danger" style="float: right; margin-left: 8px;">삭제</button>
-            </form>
-            <form action="address/modify/<%= address[i].id %>" method="post">
-              <div class="input-group" style="width: auto;">
-                <span class="input-group-text"><span class="material-symbols-outlined" style="vertical-align: middle;">home</span></span>
-                <input class="form-control" name="zipcode" type="text" placeholder="<%= address[i].zipcode %>" >
-                <input class="form-control" name="main" type="text" placeholder="<%= address[i].main %>">
-                <input class="form-control" name="detail" type="text" placeholder="<%= address[i].detail %>">
-                <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: 0;">수정</button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <br>
-      <% } %>
-      
-    </div>
-  </body>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <h3>새로운 배송지 추가하기</h3>
+                <form class="d-flex" action="address/add" method="post">
+                    <div class="input-group">
+                        <span class="input-group-text"><span class="material-symbols-outlined"
+                                style="vertical-align: middle;">home</span></span>
+                        <input class="form-control" name="zipcode" type="text" placeholder="우편번호">
+                        <input class="form-control" name="main" type="text" placeholder="기본주소">
+                        <input class="form-control" name="detail" type="text" placeholder="상세주소">
+                        <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: 0;">+
+                            추가</button>
+                    </div>
+                </form><br>
+                <h3>배송지 목록</h3>
+                <% for(var i=0; i < num; i++) { %>
+                    <div class="card">
+                        <div class="card-header">
+                            Address <%= i+1 %>
+                        </div>
+                        <div class="card-body">
+                            <form action="address/delete/<%= address[i].id %>" method="post">
+                                <button type="submit" class="btn btn-danger"
+                                    style="float: right; margin-left: 8px;">삭제</button>
+                            </form>
+                            <form action="address/modify/<%= address[i].id %>" method="post">
+                                <div class="input-group" style="width: auto;">
+                                    <span class="input-group-text"><span class="material-symbols-outlined"
+                                            style="vertical-align: middle;">home</span></span>
+                                    <input class="form-control" name="zipcode" type="text"
+                                        placeholder="<%= address[i].zipcode %>">
+                                    <input class="form-control" name="main" type="text"
+                                        placeholder="<%= address[i].main %>">
+                                    <input class="form-control" name="detail" type="text"
+                                        placeholder="<%= address[i].detail %>">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="margin-left: auto; margin-right: 0;">수정</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                    <% } %>
+
+            </div>
+    </body>
+
 </html>

@@ -1,34 +1,38 @@
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid" style="width: 960px;">
-      <a class="navbar-brand" href="/">도서구매사이트</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="book">Book</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="modal">Modal TEST</a>
-          </li>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <% if(signinStatus) {%>
-          <a class="btn btn-outline-primary" href="/mypage">마이페이지</a>&nbsp;
-          <a class="btn btn-primary" href="/signin">로그아웃</a>
-          <% } else {%>
-          <a class="btn btn-outline-primary" href="/signin">로그인</a>&nbsp;
-          <a class="btn btn-primary" href="/signup">회원가입</a>
-          <% }%>
-        </form>
-      </div>
+        <a class="navbar-brand" href="/">도서구매사이트</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="book">Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="modal">Modal TEST</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <% if(signinStatus) {%>
+                    <a class="btn btn-outline-primary btn-sm" href="/cart"><span class="material-symbols-outlined"
+                            style="vertical-align: middle; line-height: normal; font-size: medium;">add_shopping_cart</span>
+                        장바구니</a>&nbsp;
+                    <a class="btn btn-outline-primary btn-sm" href="/mypage">마이페이지</a>&nbsp;
+                    <a class="btn btn-primary btn-sm" href="/signin">로그아웃</a>
+                    <% } else {%>
+                        <a class="btn btn-outline-primary btn-sm" href="/signin">로그인</a>&nbsp;
+                        <a class="btn btn-primary btn-sm" href="/signup">회원가입</a>
+                        <% }%>
+            </form>
+        </div>
     </div>
 </nav>

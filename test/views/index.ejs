@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <% include ./head.ejs %>
-  <body>
-    <% include ./nav.ejs %>
-    <div id="main">
-      <div class="alert alert-primary" role="alert">
-        <span class="material-symbols-outlined" style="vertical-align: middle;">notifications_active</span>
-        도서구매사이트를 열심히 만들어 보자!
-      </div>
-      <% for (var i = 0; i < num; i++) { if((i+1)%5==0) { %>
-        <a href="/book/<%= books[i].id %>" style="text-decoration: none; text-decoration-line: none">
-          <div class="card" style="width: 180px; float: left; margin-bottom: 16px;">
-            <img src="images/book<%= books[i].id%>.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= books[i].title %></h5>
-              <p class="card-text">
-                <span class="material-symbols-outlined" style="vertical-align: middle; font-size: medium;">sell</span>
-                <%= books[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') %>원</p>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <div class="alert alert-primary" role="alert">
+                    <span class="material-symbols-outlined" style="vertical-align: middle;">notifications_active</span>
+                    도서구매사이트를 열심히 만들어 보자!<%= signinStatus %>
+                </div>
+                <% for (var i=0; i < num; i++) { if((i+1)%5==0) { %>
+                    <a href="/book/<%= books[i].id %>" style="text-decoration: none; text-decoration-line: none">
+                        <div class="card" style="width: 180px; float: left; margin-bottom: 16px;">
+                            <img src="images/book<%= books[i].id%>.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title"
+                                    style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                    <%= books[i].title %>
+                                </h5>
+                                <p class="card-text">
+                                    <span class="material-symbols-outlined"
+                                        style="vertical-align: middle; font-size: medium;">sell</span>
+                                    <%= books[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) %>원
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <% } else {%>
+                        <a href="/book/<%= books[i].id %>" style="text-decoration: none; text-decoration-line: none">
+                            <div class="card"
+                                style="width: 180px; float: left; margin-right: 15px; margin-bottom: 16px;">
+                                <img src="images/book<%= books[i].id%>.png" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"
+                                        style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        <%= books[i].title %>
+                                    </h5>
+                                    <p class="card-text">
+                                        <span class="material-symbols-outlined"
+                                            style="vertical-align: middle; font-size: medium;">sell</span>
+                                        <%= books[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) %>원
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <% }} %>
             </div>
-          </div>
-        </a>
-      <% } else {%>
-        <a href="/book/<%= books[i].id %>" style="text-decoration: none; text-decoration-line: none">
-          <div class="card" style="width: 180px; float: left; margin-right: 15px; margin-bottom: 16px;">
-            <img src="images/book<%= books[i].id%>.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= books[i].title %></h5>
-              <p class="card-text">
-                <span class="material-symbols-outlined" style="vertical-align: middle; font-size: medium;">sell</span>
-                <%= books[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') %>원</p>
-            </div>
-          </div>
-        </a>
-      <% }} %>
-    </div>
-  </body>
+    </body>
+
 </html>
