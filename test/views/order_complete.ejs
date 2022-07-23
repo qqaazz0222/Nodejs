@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <div class="card text-center" style="margin-bottom: 12px;">
+                    <div class="card-header">
+                        주문 성공
+                    </div>
+                    <div class="card-body"><br>
+                        <p style="font-size: 64px;">🎉</p>
+                        <h5>
+                            성공적으로 주문을 완료하였습니다.
+                        </h5><br>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">inventory_2</span>
+                                주문 상품
+                            </div>
+                            <div class="card-body">
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><span class="material-symbols-outlined"
+                                                style="vertical-align: middle;">menu_book</span>&nbsp상품
+                                        </span>
+                                        <div class="form-control" style="flex: 3;">
+                                            책제목
+                                        </div>
+                                        <div id="price" class="form-control" style="flex: 1; text-align: end;">
+                                            책가격
+                                        </div>
+                                        <div id="amount" type="text" class="form-control"
+                                            style="text-align: center; flex: 0.5;">수량</div>
+                                        <div id="total" class="form-control" style="flex: 1.5; text-align: end">
+                                            소계
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">local_shipping</span>
+                                배송지
+                            </div>
+                            <div class="card-body">
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><span class="material-symbols-outlined"
+                                                style="vertical-align: middle;">local_shipping</span>&nbsp배송지
+                                        </span>
+                                        <div class="form-control" style="flex: 1;">
+                                            우편번호
+                                        </div>
+                                        <div class="form-control" style="flex: 3;">
+                                            기본주소
+                                        </div>
+                                        <div class="form-control" style="flex: 4;">
+                                            상세주소
+                                        </div>
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">credit_card</span>
+                                카드
+                            </div>
+                            <div class="card-body">
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><span class="material-symbols-outlined"
+                                                style="vertical-align: middle;">credit_card</span>&nbsp카드
+                                        </span>
+                                        <div class="form-control" style="flex: 1;">
+                                            카드 종류
+                                        </div>
+                                        <div class="form-control" style="flex: 4;">
+                                            카드 번호
+                                        </div>
+                                        <div class="form-control" style="flex: 1;">
+                                            유효 기간
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary btn-lg" href="/" role="button">메인페이지로</a>
+                    </div>
+                </div>
+            </div>
+    </body>
+
+</html>

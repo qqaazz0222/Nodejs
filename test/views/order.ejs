@@ -5,25 +5,149 @@
     <body>
         <% include ./nav.ejs %>
             <div id="main">
-                <div id="check_item">
-                    <button onclick="">주소정하기</button>
-                </div>
-                <div id="check_address">
-                    <button>카드정하기</button>
-                </div>
-                <div id="check_card">
-                    <button>주문확인</button>
-                </div>
-                <div id="check_order">
-                    <button>주문하기</button>
-                </div>
-                <h1>order</h1>
-                <p><%= book.id %></p>
-                <p><%= book.title %></p>
-                <p><%= book.price %></p>
-                <p><%= date %></p>
-                <p><%= amount %></p>
+                <% var price_total=0 %>
+                    <form action="order/complete" method="post">
+                        <input type="text" name="sel_book" value="<%= book.id %>" style="display: none;">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        1. 주문 상품과 수량을 확인해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>주문 상품 목록</h5>
+                                        <div class="card" style="margin-top: 12px;">
+                                            <div class="input-group">
+                                                <span class="input-group-text"><span class="material-symbols-outlined"
+                                                        style="vertical-align: middle;">menu_book</span>&nbsp상품1</span>
+                                                <div class="form-control" style="flex: 3;">
+                                                    <%= book.title %>
+                                                </div>
+                                                <div id="price" class="form-control" style="flex: 1; text-align: end;">
+                                                    <%= book.price %>
+                                                </div>
+                                                <button class="form-control btn btn-outline-secondary" type="button"
+                                                    style="flex: 0.1; border-color: #ced4da;" onclick="decrease(); total();">-</button>
+                                                <input id="amount" name="amount" type="text" class="form-control"
+                                                    value="<%= amount %>" style="text-align: center; flex: 0.5;">
+                                                <button class="form-control btn btn-outline-secondary" type="button"
+                                                    style="flex: 0.1; border-color: #ced4da;" onclick="increase(); total();">+</button>
+                                                <div id="total" class="form-control" style="flex: 1.5; text-align: end">
+                                                </div>
+                                                </input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        2. 물건을 배송받을 배송지를 선택해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>배송지 목록</h5>
+                                        <% for(var i=0; i < num1; i++) { %>
+                                            <label for="sel_address_<%= i %>" style="width: 100%;">
+                                                <div class="card" style="margin-top: 12px;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><input id="sel_address_<%= i %>"
+                                                                type="radio" name="sel_address"
+                                                                value="<%= address[i].id %>">&nbsp<span
+                                                                class="material-symbols-outlined"
+                                                                style="vertical-align: middle;">local_shipping</span>&nbsp배송지
+                                                            <%= i+1 %>
+                                                        </span>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= address[i].zipcode %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 3;">
+                                                            <%= address[i].main %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 4;">
+                                                            <%= address[i].detail %>
+                                                        </div>
+                                                        </input>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        3. 결제에 사용할 카드를 선택해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>카드 목록</h5>
+                                        <% for(var i=0; i < num2; i++) { %>
+                                            <label for="sel_card_<%= i %>" style="width: 100%;">
+                                                <div class="card" style="margin-top: 12px;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><input id="sel_card_<%= i %>"
+                                                                type="radio" name="sel_card"
+                                                                value="<%= card[i].id %>">&nbsp<span
+                                                                class="material-symbols-outlined"
+                                                                style="vertical-align: middle;">credit_card</span>&nbsp카드
+                                                            <%= i+1 %>
+                                                        </span>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= card[i].type %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 4;">
+                                                            <%= card[i].code %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= card[i].validity %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="check_order" class="row">
+                            <button class="btn btn-primary btn-lg" type="submit" style="margin: 12px auto; width: 960px;">주문하기</button>
+                        </div>
+                    </form>
             </div>
+            <script>
+                var amount = parseInt(document.querySelector("#amount").value);
+                function decrease() {
+                    if (amount > 0) {
+                        amount = amount - 1;
+                        document.querySelector("#amount").value = amount;
+                    }
+                };
+                function increase() {
+                    amount = amount + 1;
+                    document.querySelector("#amount").value = amount;
+                };
+                function total() {
+                    var price_total = "<%= price_total%>";
+                    var total = parseInt(document.querySelector("#price").innerHTML) * parseInt(document.querySelector("#amount").value);
+                    price_total = total;
+                    document.querySelector("#total").innerHTML = total;
+                }
+                total();
+            </script>
     </body>
 
 </html>

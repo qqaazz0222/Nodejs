@@ -4,32 +4,75 @@ var router = express.Router();
 var connection = require("../db/db");
 
 router.get("/", (req, res) => {
-  res.send("<script>alert('잘못된 접근입니다.'); location.href='/';</script>");
+  res.send(
+    "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+  );
 });
 
 router.post("/", (req, res) => {
-  var today = new Date();
-  var year = today.getFullYear();
-  var month = today.getMonth()+1;
-  var day = today.getDate();
-  var date = year + "-" + month + "-" + day;
-  var book = { id: req.body.bookid, title: req.body.booktitle, price: req.body.bookprice };
-  var amount = req.body.amount;
+  if (req.session.uid) {
+    var book = { id: req.body.bookid, title: req.body.booktitle, price: req.body.bookprice };
+    var amount = req.body.amount;
+    connection.query(
+      "SELECT * FROM address WHERE userid=?;",
+      [req.session.uid],
+      (err1, res1, fld1) => {
+        if (err1) {
+          throw err1;
+        } else {
+          connection.query(
+            "SELECT * FROM card WHERE userid=?;",
+            [req.session.uid],
+            (err2, res2, fld2) => {
+              if (err2) {
+                throw err2;
+              } else {
+                res.render("order", { book: book, amount: amount, address: res1, card: res2, num1: res1.length, num2: res2.length, signinStatus: true });
+              }
+            }
+          )
+        }
+      }
+    )
+  }
+  else {
+    res.send(
+      "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+    );
+  }
+});
 
-  res.render("order", { date: date, book: book, amount: amount, signinStatus: true });
-  // connection.query(
-  //   "INSERT INTO orders VALUES (null, ?, ?, ?, ?);",
-  //   [date, bookid, amount, user],
-  //   (err1, res1, fld1) => {
-  //     if (err1) {
-  //       throw err1;
-  //     } else {
-  //       res.send(
-  //         "<script>alert('추가되었습니다.'); location.href='/mypage';</script>"
-  //       );
-  //     }
-  //   }
-  // );
+router.post("/complete", (req, res) => {
+  if (req.session.uid) {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth()+1;
+    var day = today.getDate();
+    var date = year + "-" + month + "-" + day;
+    var book = req.body.sel_book;
+    var amount = req.body.amount;
+    var address = req.body.sel_address;
+    var card = req.body.sel_card;
+    var user = req.session.uid;
+    console.log("선택 주소 : " + req.body.sel_address);
+    console.log("선택 카드 : " + req.body.sel_card);
+    console.log("선택 카드 : " + req.body.amount);
+    connection.query(
+      "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
+      [date, book, amount, address, card, user],
+      (err1, res1, fld1) => {
+        if (err1) {
+          throw err1;
+        } else {
+            res.render("order_complete", { signinStatus: true });
+        }
+      }
+    )
+  } else {
+    res.send(
+      "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+    );
+  }
 });
 
 router.post("/modify/:id", (req, res) => {

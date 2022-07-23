@@ -46,9 +46,9 @@ router.get("/", (req, res) => {
 
 router.get("/test", (req, res) => {
   if (req.session.uid) {
-    res.render("signup_complete", { signinStatus: true });
+    res.render("order_complete", { signinStatus: true });
   } else {
-    res.render("signup_complete", { signinStatus: false });
+    res.render("order_complete", { signinStatus: false });
   }
 });
 
