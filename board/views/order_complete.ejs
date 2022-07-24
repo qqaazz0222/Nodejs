@@ -14,6 +14,7 @@
                         <h5>
                             성공적으로 주문을 완료하였습니다.
                         </h5><br>
+                        <p>주문 일자 : <%= date %></p>
                         <div class="card" style="margin-bottom: 12px;">
                             <div class="card-header">
                                 <span class="material-symbols-outlined"
@@ -27,13 +28,13 @@
                                                 style="vertical-align: middle;">menu_book</span>&nbsp상품
                                         </span>
                                         <div class="form-control" style="flex: 3;">
-                                            책제목
+                                            책제목<%= book %>
                                         </div>
                                         <div id="price" class="form-control" style="flex: 1; text-align: end;">
                                             책가격
                                         </div>
                                         <div id="amount" type="text" class="form-control"
-                                            style="text-align: center; flex: 0.5;">수량</div>
+                                            style="text-align: center; flex: 0.5;">수량 : <%= amount %></div>
                                         <div id="total" class="form-control" style="flex: 1.5; text-align: end">
                                             소계
                                         </div>
@@ -54,7 +55,7 @@
                                                 style="vertical-align: middle;">local_shipping</span>&nbsp배송지
                                         </span>
                                         <div class="form-control" style="flex: 1;">
-                                            우편번호
+                                            우편번호<%= address %>
                                         </div>
                                         <div class="form-control" style="flex: 3;">
                                             기본주소
@@ -80,7 +81,7 @@
                                                 style="vertical-align: middle;">credit_card</span>&nbsp카드
                                         </span>
                                         <div class="form-control" style="flex: 1;">
-                                            카드 종류
+                                            카드 종류<%= card %>
                                         </div>
                                         <div class="form-control" style="flex: 4;">
                                             카드 번호
