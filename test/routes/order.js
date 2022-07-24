@@ -64,7 +64,7 @@ router.post("/complete", (req, res) => {
         if (err1) {
           throw err1;
         } else {
-            res.render("order_complete", { signinStatus: true });
+            res.render("order_complete", {date: date, book: book, amount: amount, address: address, card: card, signinStatus: true });
         }
       }
     )
