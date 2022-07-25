@@ -49,22 +49,47 @@ router.post("/complete", (req, res) => {
     var month = today.getMonth()+1;
     var day = today.getDate();
     var date = year + "-" + month + "-" + day;
-    var book = req.body.sel_book;
     var amount = req.body.amount;
-    var address = req.body.sel_address;
-    var card = req.body.sel_card;
     var user = req.session.uid;
-    console.log("선택 주소 : " + req.body.sel_address);
-    console.log("선택 카드 : " + req.body.sel_card);
-    console.log("선택 카드 : " + req.body.amount);
     connection.query(
-      "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
-      [date, book, amount, address, card, user],
-      (err1, res1, fld1) => {
-        if (err1) {
-          throw err1;
+      "SELECT * FROM books WHERE id = ?;",
+      [req.body.sel_book],
+      (errBook, resBook, fldBook) => {
+        if (errBook) {
+          throw errBook;
         } else {
-            res.render("order_complete", {date: date, book: book, amount: amount, address: address, card: card, signinStatus: true });
+          connection.query(
+            "SELECT * FROM address WHERE id = ?;",
+            [req.body.sel_address],
+            (errAddress, resAddress, fldAddress) => {
+              if (errAddress) {
+                throw errAddress;
+              } else {
+                connection.query(
+                  "SELECT * FROM card WHERE id = ?;",
+                  [req.body.sel_card],
+                  (errCard, resCard, fldCard) => {
+                    if (errCard) {
+                      throw errCard;
+                    } else {
+                      connection.query(
+                        "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
+                        [date, req.body.sel_book, amount, req.body.sel_address, req.body.sel_card, user],
+                        (err1, res1, fld1) => {
+                          if (err1) {
+                            throw err1;
+                          } else {
+                            console.log("data", resBook[0].id, resAddress[0].id, resCard[0].id);
+                            res.render("order_complete", {date: date, book: resBook[0], amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
+                          }
+                        }
+                      )
+                    }
+                  }
+                )
+              }
+            }
+          )
         }
       }
     )

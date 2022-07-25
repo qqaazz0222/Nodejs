@@ -22,21 +22,29 @@
                                 주문 상품
                             </div>
                             <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 10;">제목</div>
+                                    <div class="col" style="flex: 2;">가격</div>
+                                    <div class="col" style="flex: 1;">수량</div>
+                                    <div class="col" style="flex: 2;">소계</div>
+                                </div>
                                 <div class="card" style="margin-top: 12px;">
                                     <div class="input-group">
-                                        <span class="input-group-text"><span class="material-symbols-outlined"
-                                                style="vertical-align: middle;">menu_book</span>&nbsp상품
-                                        </span>
-                                        <div class="form-control" style="flex: 3;">
-                                            책제목<%= book %>
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">menu_book</span>
                                         </div>
-                                        <div id="price" class="form-control" style="flex: 1; text-align: end;">
-                                            책가격
+                                        <div class="form-control" style="flex: 10; text-align: start;">
+                                            <%= book.title %>
+                                        </div>
+                                        <div id="price" class="form-control" style="flex: 2; text-align: end;">
+                                            <%= book.price %>
                                         </div>
                                         <div id="amount" type="text" class="form-control"
-                                            style="text-align: center; flex: 0.5;">수량 : <%= amount %></div>
-                                        <div id="total" class="form-control" style="flex: 1.5; text-align: end">
-                                            소계
+                                            style="text-align: center; flex: 1;"><%= amount %></div>
+                                        <div id="total" class="form-control" style="flex: 2; text-align: end;">
+                                            <%= parseInt(book.price) * parseInt(amount) %>
                                         </div>
                                     </div>
                                 </div>
@@ -49,19 +57,26 @@
                                 배송지
                             </div>
                             <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 2; border-left: #ced4da 1px solid;">우편번호</div>
+                                    <div class="col" style="flex: 6; border-left: #ced4da 1px solid;">기본주소</div>
+                                    <div class="col" style="flex: 7; border-left: #ced4da 1px solid;">상세주소</div>
+                                </div>
                                 <div class="card" style="margin-top: 12px;">
                                     <div class="input-group">
-                                        <span class="input-group-text"><span class="material-symbols-outlined"
-                                                style="vertical-align: middle;">local_shipping</span>&nbsp배송지
-                                        </span>
-                                        <div class="form-control" style="flex: 1;">
-                                            우편번호<%= address %>
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">local_shipping</span>
                                         </div>
-                                        <div class="form-control" style="flex: 3;">
-                                            기본주소
+                                        <div class="form-control" style="flex: 2;">
+                                            <%= address.zipcode %>
                                         </div>
-                                        <div class="form-control" style="flex: 4;">
-                                            상세주소
+                                        <div class="form-control" style="flex: 6;">
+                                            <%= address.main %>
+                                        </div>
+                                        <div class="form-control" style="flex: 7;">
+                                            <%= address.detail %>
                                         </div>
                                         </input>
                                     </div>
@@ -75,19 +90,27 @@
                                 카드
                             </div>
                             <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 3;">카드종류</div>
+                                    <div class="col" style="flex: 9;">카드번호</div>
+                                    <div class="col" style="flex: 3;">유효기간</div>
+                                </div>
                                 <div class="card" style="margin-top: 12px;">
                                     <div class="input-group">
-                                        <span class="input-group-text"><span class="material-symbols-outlined"
-                                                style="vertical-align: middle;">credit_card</span>&nbsp카드
-                                        </span>
-                                        <div class="form-control" style="flex: 1;">
-                                            카드 종류<%= card %>
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">credit_card</span>
                                         </div>
-                                        <div class="form-control" style="flex: 4;">
-                                            카드 번호
+                                        <div class="form-control" style="flex: 3;">
+                                            <% if(card.type == "credit") { cardtype = "신용카드" }; if(card.type == "check") { cardtype = "체크카드" }; %>
+                                            <%= cardtype %>
                                         </div>
-                                        <div class="form-control" style="flex: 1;">
-                                            유효 기간
+                                        <div class="form-control" style="flex: 9;">
+                                            <%= card.code %>
+                                        </div>
+                                        <div class="form-control" style="flex: 3;">
+                                            <%= card.validity %>
                                         </div>
                                     </div>
                                 </div>
