@@ -2,78 +2,38 @@
 <html>
 <% include ./head.ejs %>
 
-    <body>
+    <body style="background-color: #F8F9FA;">
         <% include ./nav.ejs %>
             <div id="main">
-                <div class="col">
-                    <div class="row">
-                        <div class="col-4">
-                            <h5>새로운 카드 추가하기</h5>
-                            <div class="card" style="width: 100%;">
-                                <div class="card-body">
-                                    <form class="d-flex" action="card" method="post">
-                                        <div class="col">
-                                            <div class="input-group">
-                                                <input class="form-control" name="card1" type="text" placeholder="XXXX"
-                                                    style="text-align: center;">
-                                                <input class="form-control" name="card2" type="text" placeholder="XXXX"
-                                                    style="text-align: center;">
-                                                <input class="form-control" name="card3" type="text" placeholder="XXXX"
-                                                    style="text-align: center;">
-                                                <input class="form-control" name="card4" type="text" placeholder="XXXX"
-                                                    style="text-align: center;">
-                                            </div><br>
-                                            <div class="input-group">
-                                                <input class="form-control" name="month" type="text" placeholder="mm">
-                                                <input class="form-control" name="year" type="text" placeholder="yy">
-                                                <button type="submit" class="btn btn-primary"
-                                                    style="margin-left: auto; margin-right: 0;">+ 추가</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                <h5>결제정보</h5>
+                                <hr>
+                                <span>
+                                    <span style="float: left;">상품수</span>
+                                    <span style="float: right;">1개</span>
+                                </span><br>
+                                <span>
+                                    <span style="float: left;">상품금액</span>
+                                    <span style="float: right;">100,000원</span>
+                                </span><br>
+                                <hr>
+                                <span>
+                                    <h5 style="float: left;">총 결제금액</h5>
+                                    <h3 style="float: right;">100,000원</h3>
+                                </span><br>
+                                <button class="btn btn-primary" style="width: 100%;">구매하기</button>
                             </div>
                         </div>
-                    </div><br>
-                    <div class="row">
-                        <h5>카드 목록</h5>
-                        <% for(var i=0; i < num; i++) { %>
-                            <div class="col-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        CARD <%= i+1 %>
-                                    </div>
-                                    <div class="card-body">
-                                        <form class="d-flex" action="card/modify/<%= card[i].id %>" method="post">
-                                            <div class="col">
-                                                <div class="input-group">
-                                                    <% var code=card[i].code.split('-') %>
-                                                        <input class="form-control" name="card1" type="text"
-                                                            placeholder="<%= code[0] %>" style="text-align: center;">
-                                                        <input class="form-control" name="card2" type="text"
-                                                            placeholder="<%= code[1] %>" style="text-align: center;">
-                                                        <input class="form-control" name="card3" type="text"
-                                                            placeholder="<%= code[2] %>" style="text-align: center;">
-                                                        <input class="form-control" name="card4" type="text"
-                                                            placeholder="<%= code[3] %>" style="text-align: center;">
-                                                </div><br>
-                                                <div class="input-group">
-                                                    <% var validity=card[i].validity.split('/') %>
-                                                        <input class="form-control" name="month" type="text"
-                                                            placeholder="<%= validity[0] %>">
-                                                        <input class="form-control" name="year" type="text"
-                                                            placeholder="<%= validity[1] %>">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            style="margin-left: auto; margin-right: 0;">수정</button>
-                                                </div>
-                                            </div>
-                                        </form><br>
-                                        <a class="btn btn-danger" href="card/delete/<%= card[i].id %>">삭제</a>
-                                    </div>
-                                </div>
-                            </div><br>
-                            <% } %>
-                                <br>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
