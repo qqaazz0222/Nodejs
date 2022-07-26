@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   if (req.session.uid) {
     console.log(req.session.uid);
     connection.query(
-      "SELECT * FROM cart WHERE userid=?;",
+      "SELECT cart.id, itemid, amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;",
       [req.session.uid],
       (err1, res1, fld1) => {
         try {
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
             signinStatus: true,
           });
         } catch {
-            throw err1;
+          throw err1;
         }
       }
     );
@@ -27,39 +27,30 @@ router.get("/", (req, res) => {
   }
 });
 
-router.post("/add", (req, res) => {
-  var code =
-    req.body.card1 +
-    "-" +
-    req.body.card2 +
-    "-" +
-    req.body.card3 +
-    "-" +
-    req.body.card4;
-  var validity = req.body.month + "/" + req.body.year;
-  var type = "credit";
-  var user = req.session.uid;
-  connection.query(
-    "INSERT INTO card VALUES (null, ?, ?, ?, ?);",
-    [validity, code, type, user],
-    (err1, res1, fld1) => {
-      if (err1) {
-        if (err1.errno == 1062) {
-          console.log("이미 등록된 카드입니다.");
-          res.send(
-            "<script>alert('이미 등록된 카드입니다.'); location.href='/card';</script>"
-          );
-          res.render("card");
+router.post("/", (req, res) => {
+  if (req.session.uid) {
+    var book = {
+      id: req.body.bookid,
+      title: req.body.booktitle,
+      price: req.body.bookprice,
+    };
+    var amount = req.body.amount;
+    connection.query(
+      "INSERT INTO cart VALUES (null, ?, ?, ?);",
+      [book.id, amount, req.session.uid],
+      (err1, res1, fld1) => {
+        try {
+          res.redirect("/");
+        } catch (err1) {
           throw err1;
         }
-        throw err1;
-      } else {
-        res.send(
-          "<script>alert('추가되었습니다.'); location.href='/card';</script>"
-        );
       }
-    }
-  );
+    );
+  } else {
+    res.send(
+      "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+    );
+  }
 });
 
 router.post("/modify/:id", (req, res) => {
@@ -89,15 +80,15 @@ router.post("/modify/:id", (req, res) => {
 
 router.post("/delete/:id", (req, res) => {
   connection.query(
-    "DELETE FROM card WHERE id=?;",
+    "DELETE FROM cart WHERE id=?;",
     [req.params.id],
     (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
+      try {
         res.send(
-          "<script>alert('삭제되었습니다.'); location.href='/card';</script>"
+          "<script>alert('삭제되었습니다.'); location.href='/cart';</script>"
         );
+      } catch (err1) {
+        throw err1;
       }
     }
   );

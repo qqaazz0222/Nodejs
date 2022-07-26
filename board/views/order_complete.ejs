@@ -39,12 +39,14 @@
                                             <%= book.title %>
                                         </div>
                                         <div id="price" class="form-control" style="flex: 2; text-align: end;">
-                                            <%= book.price %>
+                                            <%= book.price.toString()
+                                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","); %>
                                         </div>
                                         <div id="amount" type="text" class="form-control"
                                             style="text-align: center; flex: 1;"><%= amount %></div>
                                         <div id="total" class="form-control" style="flex: 2; text-align: end;">
-                                            <%= parseInt(book.price) * parseInt(amount) %>
+                                            <%= (parseInt(book.price) * parseInt(amount)).toString()
+                                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","); %>
                                         </div>
                                     </div>
                                 </div>

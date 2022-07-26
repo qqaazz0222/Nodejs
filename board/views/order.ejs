@@ -21,14 +21,18 @@
                                     <div class="accordion-body">
                                         <h5>주문 상품 목록</h5>
                                         <div class="card" style="margin-top: 12px;">
+                                            <div id="price" class="form-control" style="display: none;">
+                                                <%= book.price %>
+                                            </div>
                                             <div class="input-group">
                                                 <span class="input-group-text"><span class="material-symbols-outlined"
                                                         style="vertical-align: middle;">menu_book</span>&nbsp상품1</span>
                                                 <div class="form-control" style="flex: 3;">
                                                     <%= book.title %>
                                                 </div>
-                                                <div id="price" class="form-control" style="flex: 1; text-align: end;">
-                                                    <%= book.price %>
+                                                <div class="form-control" style="flex: 1; text-align: end;">
+                                                    <%= book.price.toString()
+                                                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","); %>
                                                 </div>
                                                 <button class="form-control btn btn-outline-secondary" type="button"
                                                     style="flex: 0.1; border-color: #ced4da;" onclick="decrease(); total();">-</button>
@@ -144,7 +148,7 @@
                     var price_total = "<%= price_total%>";
                     var total = parseInt(document.querySelector("#price").innerHTML) * parseInt(document.querySelector("#amount").value);
                     price_total = total;
-                    document.querySelector("#total").innerHTML = total;
+                    document.querySelector("#total").innerHTML = total.toLocaleString('ko-KR');
                 }
                 total();
             </script>
