@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body style="background-color: #F8F9FA;">
+        <% include ./nav.ejs %>
+        <% var totalamount=0 %>
+        <% var totalprice=0 %>
+        <% for(var i=0; i < order.length; i++) { %>
+        <% totalamount=totalamount + parseInt(order[i].amount) %>
+        <% totalprice=totalprice + (parseInt(order[i].price) * parseInt(order[i].amount)) %>
+        <% } %>
+        <div id="main">
+            <form method="post">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                <h5>결제정보</h5>
+                                <hr>
+                                <span>
+                                    <span style="float: left;">상품수</span>
+                                    <span style="float: right;">
+                                        <%= totalamount %> 개
+                                    </span>
+                                </span><br>
+                                <span>
+                                    <span style="float: left;">상품금액</span>
+                                    <span style="float: right;">
+                                        <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                            ) %> 원
+                                    </span>
+                                </span><br>
+                                <hr>
+                                <span>
+                                    <h5 style="float: left;">총 결제금액</h5>
+                                    <h3 style="float: right;">
+                                        <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                            ) %> 원
+                                    </h3>
+                                </span><br>
+                                <button class="btn btn-primary" type="submit" onclick="javascript: form.action='order/cart';"
+                                    style="width: 100%;">구매하기</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">장바구니 목록</h5>
+                                        <% if(order.length==0) { %>
+                                        <br>
+                                        <h5>
+                                            <span class="material-icons md-48"
+                                                style="color: #FFC008;">report_problem</span>
+                                            장바구니에 담은 도서가 없습니다.
+                                        </h5>
+                                        <% } else { %>
+                                        <% for(var i=0; i < order.length; i++) { %>
+                                            <label for="item<%= i %>" style="width: 100%;">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-text">
+                                                        <input id="item<%= i %>" class="form-check-input mt-0" name="item"
+                                                            type="checkbox" value="<%= order[i].id %>"
+                                                            aria-label="<%= order[i].id %>">
+                                                    </div>
+                                                    <div class="form-control">
+                                                        <button type="submit"
+                                                            onclick="javascript: form.action='cart/delete/<%= order[i].id %>';"
+                                                            value="<%= order[i].id %>"
+                                                            class="btn-close"
+                                                            aria-label="Close"
+                                                            style="float: right;"></button>
+                                                        <span>
+                                                            <%= order[i].order_date %> 도서
+                                                            <%= i+1 %>
+                                                        </span><br>
+                                                        <span style="font-size: large;">
+                                                            <%= order[i].title %>
+                                                        </span><br>
+                                                        <span style="color: #6c757d;">
+                                                            <%= order[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                                            ) %>원, <%= order[i].amount
+                                                            %>개
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% } } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+
+</html>

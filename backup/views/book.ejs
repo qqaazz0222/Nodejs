@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <div class="row">
+                    <div class="col">
+                        <img src="../images/book<%= book.id %>.png" class="rounded float-start" alt="...">
+                    </div>
+                    <div class="col" style="position: relative;">
+                        <div class="row" style="position: absolute; top: 0;">
+                            <h1>
+                                <%= book.title %>
+                            </h1>
+                            <h3 class="text-primary">
+                                <%= book.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) %>원
+                            </h3>
+                        </div>
+                        <div class="row" style="position: absolute; bottom: 0;">
+                            <form method="post">
+                                <input type="text" name="bookid" value="<%= book.id %>" style="display: none;">
+                                <input type="text" name="booktitle" value="<%= book.title %>" style="display: none;">
+                                <input type="text" name="bookprice" value="<%= book.price %>" style="display: none;">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 style="line-height: 38px; vertical-align: middle;">수량</h5>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="input-group mb-4">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="decrease()">-</button>
+                                            <input id="amount" name="amount" type="text" class="form-control" value="1"
+                                                style="text-align: center ; border-color: #6c757d;">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="increase()">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-outline-primary btn-lg" type="submit" value="order" onclick="javascript: form.action='/order';"
+                                            style="width: 100%;"><span class="material-symbols-outlined"
+                                                style="vertical-align: middle; line-height: normal;">navigate_next</span>
+                                            구매하기</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-lg" type="submit" value="add_cart" onclick="javascript: form.action='/cart';"
+                                            style="width: 100%;"><span class="material-symbols-outlined"
+                                                style="vertical-align: middle; line-height: normal;">add_shopping_cart</span>
+                                            장바구니</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><br><br>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">책소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">도서정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">교환/반품/품절</a>
+                    </li>
+                </ul><br><br>
+                <div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse erat nibh, dictum vel metus
+                        a, convallis imperdiet enim. Etiam eu orci cursus, commodo lacus rutrum, maximus massa. Aliquam
+                        vel dui vitae tellus egestas eleifend. Fusce semper luctus nunc et sodales. Suspendisse molestie
+                        felis quis vulputate tempus. Sed porttitor at urna at suscipit. Sed mi ligula, suscipit non
+                        nulla id, dictum eleifend urna.Cras eu lectus eu elit porta scelerisque in sed enim. Nunc
+                        aliquet justo at ipsum scelerisque venenatis. Donec a ornare dolor. Vestibulum ipsum ex, ornare
+                        congue nisi non, sagittis interdum sapien. Pellentesque at tortor convallis, lobortis risus eu,
+                        feugiat purus. Donec volutpat ligula nisl, sed placerat tellus placerat at. Integer finibus
+                        lobortis nunc, non hendrerit mauris sodales ut. Ut eget porttitor massa, id lacinia lorem.
+                        Vivamus cursus mauris ex, ac varius ligula pulvinar non. Nunc luctus commodo elit eget finibus.
+                        Mauris elementum ullamcorper dolor, quis malesuada dui aliquet eget. Maecenas at odio vulputate,
+                        faucibus est vitae, auctor nulla. Proin et metus quis justo mollis cursus ac nec metus. Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit.Aenean lacinia augue augue, sit amet blandit
+                        justo semper sed. Curabitur eget convallis elit, et venenatis leo. Sed dui dolor, elementum ac
+                        nisi sed, posuere ultricies eros. Phasellus scelerisque euismod ex ut condimentum. Etiam
+                        eleifend facilisis risus, sit amet fermentum nisi scelerisque eu. Ut nec lacus justo. Nullam
+                        dictum, mi quis egestas cursus, est tortor sodales velit, quis pulvinar velit turpis sed turpis.
+                        Nulla a elit vel diam finibus pretium. Integer hendrerit egestas risus quis dignissim. Nunc
+                        elementum arcu non aliquet aliquet. Donec laoreet metus purus, eu dignissim ipsum malesuada
+                        ac.Quisque risus leo, sodales ut commodo eget, pretium et orci. Vestibulum tempus ex ut aliquet
+                        iaculis. Sed ac blandit dolor. Curabitur orci tellus, elementum ac accumsan non, convallis vel
+                        libero. Sed massa sapien, mattis vel neque vel, ornare feugiat lacus. Proin at viverra nisi, in
+                        cursus orci. Aliquam ac vestibulum lectus. Vivamus id mi pulvinar, aliquam justo hendrerit,
+                        elementum dui.Maecenas cursus, lorem egestas venenatis bibendum, metus ipsum mattis velit, at
+                        lacinia est urna at mi. Fusce varius quam orci, at vehicula turpis bibendum eget. Vivamus arcu
+                        ex, malesuada nec risus vel, vulputate porta justo. In metus mi, fermentum a tempor vitae,
+                        elementum ut nisl. Integer convallis fringilla augue, ac luctus odio gravida quis. Nunc sagittis
+                        imperdiet dictum. Donec eu feugiat augue, sit amet finibus ex. Fusce pretium dui ut diam semper
+                        rhoncus. Maecenas pretium dictum erat, condimentum bibendum nibh placerat ut. Pellentesque
+                        ultricies id mauris et facilisis. Quisque vitae iaculis nibh, eu ullamcorper est. Donec
+                        sollicitudin sapien fermentum, varius nibh in, gravida justo.</p>
+                </div>
+            </div>
+            <script>
+                var amount = 0;
+                function decrease() {
+                    if (amount > 0) {
+                        amount = amount - 1;
+                        document.querySelector("#amount").value = amount;
+                    }
+                };
+                function increase() {
+                    amount = amount + 1;
+                    document.querySelector("#amount").value = amount;
+                };
+            </script>
+    </body>
+
+</html>

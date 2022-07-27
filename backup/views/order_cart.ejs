@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <% var order_cartid=[] %>
+                <% var order_item=[] %>
+                <% var order_amount=[] %>
+                    <form action="cart/complete" method="post">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        1. 주문 상품과 수량을 확인해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>주문 상품 목록</h5>
+                                        <% for(var i=0; i < order.length; i++) { %>
+                                        <% order_cartid.push(order[i].id) %>
+                                        <% order_item.push(order[i].itemid) %>
+                                        <% order_amount.push(order[i].amount) %>
+                                        <input type="text" name="sel_book" value="<%= order[i].bookid %>" style="display: none;">
+                                        <div class="card" style="margin-top: 12px;">
+                                            <div id="price" class="form-control" style="display: none;">
+                                                책 가격
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><span class="material-symbols-outlined"
+                                                        style="vertical-align: middle;">menu_book</span>&nbsp상품<%= i+1 %></span>
+                                                <div class="form-control" style="flex: 3;">
+                                                    <%= order[i].title %>
+                                                </div>
+                                                <div class="form-control" style="flex: 1; text-align: end;">
+                                                    <%= order[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                                    )  %>
+                                                </div>
+                                                <input id="amount" name="amount" type="text" class="form-control"
+                                                    value="<%= order[i].amount %>" style="text-align: center; flex: 0.7;">
+                                                <div id="total" class="form-control" style="flex: 1.5; text-align: end">
+                                                    <%= order[i].total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                                    )  %>
+                                                </div>
+                                                </input>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                    <input name="order_cartid" value="<%= order_cartid %>" style="display: none;">
+                                    <input name="order_item" value="<%= order_item %>" style="display: none;">
+                                    <input name="order_amount" value="<%= order_amount %>" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        2. 물건을 배송받을 배송지를 선택해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>배송지 목록</h5>
+                                        <% for(var i=0; i < address.length; i++) { %>
+                                            <label for="sel_address_<%= i %>" style="width: 100%;">
+                                                <div class="card" style="margin-top: 12px;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><input id="sel_address_<%= i %>"
+                                                                type="radio" name="sel_address"
+                                                                value="<%= address[i].id %>">&nbsp<span
+                                                                class="material-symbols-outlined"
+                                                                style="vertical-align: middle;">local_shipping</span>&nbsp배송지
+                                                            <%= i+1 %>
+                                                        </span>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= address[i].zipcode %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 3;">
+                                                            <%= address[i].main %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 4;">
+                                                            <%= address[i].detail %>
+                                                        </div>
+                                                        </input>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        3. 결제에 사용할 카드를 선택해주세요.
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>카드 목록</h5>
+                                        <% for(var i=0; i < card.length; i++) { %>
+                                            <label for="sel_card_<%= i %>" style="width: 100%;">
+                                                <div class="card" style="margin-top: 12px;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><input id="sel_card_<%= i %>"
+                                                                type="radio" name="sel_card"
+                                                                value="<%= card[i].id %>">&nbsp<span
+                                                                class="material-symbols-outlined"
+                                                                style="vertical-align: middle;">credit_card</span>&nbsp카드
+                                                            <%= i+1 %>
+                                                        </span>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= card[i].type %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 4;">
+                                                            <%= card[i].code %>
+                                                        </div>
+                                                        <div class="form-control" style="flex: 1;">
+                                                            <%= card[i].validity %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="check_order" class="row">
+                            <button class="btn btn-primary btn-lg" type="submit" style="margin: 12px auto; width: 960px;">주문하기</button>
+                        </div>
+                    </form>
+            </div>
+    </body>
+
+</html>
