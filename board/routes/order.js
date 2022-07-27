@@ -17,9 +17,7 @@ router.post("/", (req, res) => {
       "SELECT * FROM address WHERE userid=?;",
       [req.session.uid],
       (err1, res1, fld1) => {
-        if (err1) {
-          throw err1;
-        } else {
+        try {
           connection.query(
             "SELECT * FROM card WHERE userid=?;",
             [req.session.uid],
@@ -31,7 +29,9 @@ router.post("/", (req, res) => {
               }
             }
           )
-        }
+        } catch (err1) {
+          throw err1;
+        } 
       }
     )
   }
@@ -55,41 +55,41 @@ router.post("/complete", (req, res) => {
       "SELECT * FROM books WHERE id = ?;",
       [req.body.sel_book],
       (errBook, resBook, fldBook) => {
-        if (errBook) {
-          throw errBook;
-        } else {
+        try {
           connection.query(
             "SELECT * FROM address WHERE id = ?;",
             [req.body.sel_address],
             (errAddress, resAddress, fldAddress) => {
-              if (errAddress) {
-                throw errAddress;
-              } else {
+              try {
                 connection.query(
                   "SELECT * FROM card WHERE id = ?;",
                   [req.body.sel_card],
                   (errCard, resCard, fldCard) => {
-                    if (errCard) {
-                      throw errCard;
-                    } else {
+                    try {
                       connection.query(
                         "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
                         [date, req.body.sel_book, amount, req.body.sel_address, req.body.sel_card, user],
                         (err1, res1, fld1) => {
-                          if (err1) {
-                            throw err1;
-                          } else {
+                          try {
                             res.render("order_complete", { date: date, book: resBook[0], amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
-                          }
+                          } catch (err1) {
+                            throw err1;
+                          } 
                         }
                       )
-                    }
+                    } catch (errCard) {
+                      throw errCard;
+                    } 
                   }
                 )
+              } catch (errAddress) {
+                throw errAddress;
               }
             }
           )
-        }
+        } catch (errBook) {
+          throw errBook;
+        } 
       }
     )
   } else {
@@ -156,29 +156,23 @@ router.post("/cart/complete", (req, res) => {
       "SELECT * FROM books WHERE id IN (?);",
       [books],
       (errBook, resBook, fldBook) => {
-        if (errBook) {
-          throw errBook;
-        } else {
+        try {
           connection.query(
             "SELECT * FROM address WHERE id = ?;",
             [req.body.sel_address],
             (errAddress, resAddress, fldAddress) => {
-              if (errAddress) {
-                throw errAddress;
-              } else {
+              try {
                 connection.query(
                   "SELECT * FROM card WHERE id = ?;",
                   [req.body.sel_card],
                   (errCard, resCard, fldCard) => {
-                    if (errCard) {
-                      throw errCard;
-                    } else {
+                    try {
                       for (var i = 0; i < books.length; i++) {
                         connection.query(
                           "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
                           [date, books[i], amount[i], req.body.sel_address, req.body.sel_card, user],
                           (err, res, fld) => {
-                            if (err) {
+                          try {} catch (err) {
                               throw err;
                             }
                           }
@@ -189,18 +183,24 @@ router.post("/cart/complete", (req, res) => {
                         "DELETE FROM cart WHERE id IN (?);",
                         [cartid],
                         (err, res, fld) => {
-                          if (err) {
+                          try {} catch (err) {
                             throw err;
                           }
                         }
                       )
-                    }
+                    } catch (errCard) {
+                      throw errCard;
+                    } 
                   }
                 )
-              }
+              } catch (errAddress) {
+                throw errAddress;
+              } 
             }
           )
-        }
+        } catch (errBook) {
+          throw errBook;
+        } 
       }
     )
   } else

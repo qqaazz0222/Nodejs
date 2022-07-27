@@ -10,15 +10,15 @@ router.get("/", (req, res) => {
       "SELECT * FROM card WHERE userid=?;",
       [req.session.uid],
       (err1, res1, fld1) => {
-        if (err1) {
-          throw err1;
-        } else {
+        try {
           res.render("card", {
             card: res1,
             num: res1.length,
             signinStatus: true,
           });
-        }
+        } catch (err1) {
+          throw err1;
+        } 
       }
     );
   } else {
@@ -44,7 +44,11 @@ router.post("/add", (req, res) => {
     "INSERT INTO card VALUES (null, ?, ?, ?, ?);",
     [validity, code, type, user],
     (err1, res1, fld1) => {
-      if (err1) {
+      try {
+        res.send(
+          "<script>alert('추가되었습니다.'); location.href='/card';</script>"
+        );
+      } catch (err1) {
         if (err1.errno == 1062) {
           console.log("이미 등록된 카드입니다.");
           res.send(
@@ -54,11 +58,7 @@ router.post("/add", (req, res) => {
           throw err1;
         }
         throw err1;
-      } else {
-        res.send(
-          "<script>alert('추가되었습니다.'); location.href='/card';</script>"
-        );
-      }
+      } 
     }
   );
 });
@@ -77,13 +77,13 @@ router.post("/modify/:id", (req, res) => {
     "UPDATE card SET validity=?, code=? WHERE id = ?;",
     [validity, code, req.params.id],
     (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
+      try {
         res.send(
           "<script>alert('수정되었습니다.'); location.href='/card';</script>"
         );
-      }
+      } catch (err1) {
+        throw err1;
+      } 
     }
   );
 });
@@ -93,13 +93,13 @@ router.post("/delete/:id", (req, res) => {
     "DELETE FROM card WHERE id=?;",
     [req.params.id],
     (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
+      try {
         res.send(
           "<script>alert('삭제되었습니다.'); location.href='/card';</script>"
         );
-      }
+      } catch (err1) {
+        throw err1;
+      } 
     }
   );
 });

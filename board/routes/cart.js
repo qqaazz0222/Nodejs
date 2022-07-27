@@ -67,13 +67,13 @@ router.post("/modify/:id", (req, res) => {
     "UPDATE card SET validity=?, code=? WHERE id = ?;",
     [validity, code, req.params.id],
     (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
+      try {
         res.send(
           "<script>alert('수정되었습니다.'); location.href='/card';</script>"
         );
-      }
+      } catch (err1) {
+        throw err1;
+      } 
     }
   );
 });

@@ -24,9 +24,7 @@ router.use(
 
 router.get("/", (req, res) => {
   connection.query("SELECT * FROM books;", (err1, res1, fld1) => {
-    if (err1) {
-      throw err1;
-    } else {
+    try {
       if (req.session.uid) {
         res.render("index", {
           books: res1,
@@ -40,7 +38,9 @@ router.get("/", (req, res) => {
           signinStatus: false,
         });
       }
-    }
+    } catch (err1) {
+      throw err1;
+    } 
   });
 });
 
@@ -58,11 +58,11 @@ router.get("/book/:id", (req, res) => {
       "SELECT * FROM books WHERE id=?;",
       [req.params.id],
       (err1, res1, fld1) => {
-        if (err1) {
-          throw err1;
-        } else {
+        try {
           res.render("book", { bookid: req.params.id ,book: res1[0], signinStatus: true });
-        }
+        } catch (err1) {
+          throw err1;
+        } 
       }
     );
   } else {
