@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.28, for macos11 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: board
 -- ------------------------------------------------------
@@ -38,7 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (2,'ttt','ttt','ttt','te'),(18,'47011','부산광역시 사상구','주례로 47, UIT관 8층','id1'),(19,'47011','부산광역시 사상구','주례로 47, NM 246','id1'),(30,'test','test','test','id1');
+INSERT INTO `address` VALUES (2,'ttt','ttt','ttt','te'),(18,'47011','부산광역시 사상구','주례로 47, UIT관 8층','id1'),(19,'47011','부산광역시 사상구','주례로 47, NM 246','id1'),(30,'40711','부산광역시 사상수','주례로 47, NM 247','id1');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `card` (
 
 LOCK TABLES `card` WRITE;
 /*!40000 ALTER TABLE `card` DISABLE KEYS */;
-INSERT INTO `card` VALUES (1,'07/22','1234-1234-1234-1234','credit','id1'),(15,'mm/yy','test-test-test-test','credit','id1'),(16,'mm/yy','card-card-card-card','credit','id1');
+INSERT INTO `card` VALUES (1,'07/22','1234-1234-1234-1234','credit','id1'),(15,'07/22','1111-2222-3333-4444','credit','id1'),(16,'mm/yy','card-card-card-card','credit','id1');
 /*!40000 ALTER TABLE `card` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,7 @@ CREATE TABLE `cart` (
   `amount` varchar(45) NOT NULL,
   `userid` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +116,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (8,'1','1','id2'),(9,'2','1','id2'),(10,'3','1','id2'),(11,'4','1','id2'),(22,'20','10','id1');
+INSERT INTO `cart` VALUES (8,'1','1','id2'),(9,'2','1','id2'),(10,'3','1','id2'),(11,'4','1','id2');
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `orders` (
   `card_id` varchar(45) NOT NULL,
   `user_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (88,'2022-7-26','1','5','18','1','id1'),(89,'2022-7-26','1','2','18','1','id1'),(90,'2022-7-27','1','0','18','1','id1'),(91,'2022-7-27','1','4','18','1','id1'),(92,'2022-7-27','20','10','18','1','id1');
+INSERT INTO `orders` VALUES (153,'2022-7-27','1','1','18','1','id1'),(154,'2022-7-27','2','2','18','1','id1'),(155,'2022-7-27','3','3','18','1','id1'),(156,'2022-7-27','4','4','18','1','id1'),(157,'2022-7-27','5','5','18','1','id1'),(158,'2022-7-27','1','5','18','1','id1'),(159,'2022-7-27','1','1','18','1','id1'),(160,'2022-7-27','2','1','18','1','id1'),(161,'2022-7-27','1','1','18','1','id1'),(162,'2022-7-27','2','1','18','1','id1'),(163,'2022-7-27','3','1','18','1','id1'),(164,'2022-7-27','4','1','18','1','id1'),(165,'2022-7-27','5','1','18','1','id1');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('-5UiChMDhr1dwAhPFD8ghZnNDjxoMi8j',1658941471,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id1\",\"isLogined\":true}'),('BfHvlCrjaZz3r64nU6G7xzKM0dgBO4b_',1658938276,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id2\",\"isLogined\":true}'),('K1gOPKBFpcB8khgod6qBN84-hj7LliSJ',1658912672,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id1\",\"isLogined\":true}');
+INSERT INTO `sessions` VALUES ('-5UiChMDhr1dwAhPFD8ghZnNDjxoMi8j',1658941471,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id1\",\"isLogined\":true}'),('9pvaqY8B51YpMAseOZJ4LQd6LJt622Pa',1658993220,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id1\",\"isLogined\":true}'),('BfHvlCrjaZz3r64nU6G7xzKM0dgBO4b_',1658938276,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id2\",\"isLogined\":true}'),('K1gOPKBFpcB8khgod6qBN84-hj7LliSJ',1658912672,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"uid\":\"id1\",\"isLogined\":true}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,4 +208,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-27  2:06:23
+-- Dump completed on 2022-07-27 16:28:11
