@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="main">
+                <div class="card text-center" style="margin-bottom: 12px;">
+                    <div class="card-header">
+                        주문 성공
+                    </div>
+                    <div class="card-body"><br>
+                        <p style="font-size: 64px;">🎉</p>
+                        <h5>
+                            성공적으로 주문을 완료하였습니다.
+                        </h5><br>
+                        <p>주문 일자 : <%= date %>
+                        </p>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">inventory_2</span>
+                                주문 상품
+                            </div>
+                            <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 10;">제목</div>
+                                    <div class="col" style="flex: 2;">가격</div>
+                                    <div class="col" style="flex: 1;">수량</div>
+                                    <div class="col" style="flex: 2;">소계</div>
+                                </div>
+                                <% for(var i=0; i < book.length; i++) { %>
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">menu_book</span>
+                                        </div>
+                                        <div class="form-control" style="flex: 10; text-align: start;">
+                                            <%= book[i].title %>
+                                        </div>
+                                        <div id="price" class="form-control" style="flex: 2; text-align: end;">
+                                            <%= book[i].price.toString()
+                                                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, "," ); %>
+                                        </div>
+                                        <div id="amount" type="text" class="form-control"
+                                            style="text-align: center; flex: 1;">
+                                            <%= amount[i] %>
+                                        </div>
+                                        <div id="total" class="form-control" style="flex: 2; text-align: end;">
+                                            <%= (parseInt(book[i].price) * parseInt(amount[i])).toString()
+                                                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, "," ); %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">local_shipping</span>
+                                배송지
+                            </div>
+                            <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 2; border-left: #ced4da 1px solid;">우편번호</div>
+                                    <div class="col" style="flex: 6; border-left: #ced4da 1px solid;">기본주소</div>
+                                    <div class="col" style="flex: 7; border-left: #ced4da 1px solid;">상세주소</div>
+                                </div>
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">local_shipping</span>
+                                        </div>
+                                        <div class="form-control" style="flex: 2;">
+                                            <%= address.zipcode %>
+                                        </div>
+                                        <div class="form-control" style="flex: 6;">
+                                            <%= address.main %>
+                                        </div>
+                                        <div class="form-control" style="flex: 7;">
+                                            <%= address.detail %>
+                                        </div>
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-bottom: 12px;">
+                            <div class="card-header">
+                                <span class="material-symbols-outlined"
+                                    style="vertical-align: middle; line-height: normal; font-size: medium;">credit_card</span>
+                                카드
+                            </div>
+                            <div class="card-body">
+                                <div class="row" style="text-align: start; padding: 0 16px; color: #6c757d;">
+                                    <div class="col" style="flex: 1;"></div>
+                                    <div class="col" style="flex: 3;">카드종류</div>
+                                    <div class="col" style="flex: 9;">카드번호</div>
+                                    <div class="col" style="flex: 3;">유효기간</div>
+                                </div>
+                                <div class="card" style="margin-top: 12px;">
+                                    <div class="input-group">
+                                        <div class="input-group-text" style="flex: 1;">
+                                            <span class="material-symbols-outlined"
+                                                style="vertical-align: middle; margin: 0 auto;">credit_card</span>
+                                        </div>
+                                        <div class="form-control" style="flex: 3;">
+                                            <% if(card.type=="credit" ) { cardtype="신용카드" };
+                                                if(card.type=="check" ) { cardtype="체크카드" }; %>
+                                                <%= cardtype %>
+                                        </div>
+                                        <div class="form-control" style="flex: 9;">
+                                            <%= card.code %>
+                                        </div>
+                                        <div class="form-control" style="flex: 3;">
+                                            <%= card.validity %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary btn-lg" href="/" role="button">메인페이지로</a>
+                    </div>
+                </div>
+            </div>
+    </body>
+
+</html>

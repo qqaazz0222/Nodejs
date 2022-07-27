@@ -46,7 +46,7 @@ router.post("/complete", (req, res) => {
   if (req.session.uid) {
     var today = new Date();
     var year = today.getFullYear();
-    var month = today.getMonth()+1;
+    var month = today.getMonth() + 1;
     var day = today.getDate();
     var date = year + "-" + month + "-" + day;
     var amount = req.body.amount;
@@ -79,8 +79,7 @@ router.post("/complete", (req, res) => {
                           if (err1) {
                             throw err1;
                           } else {
-                            console.log("data", resBook[0].id, resAddress[0].id, resCard[0].id);
-                            res.render("order_complete", {date: date, book: resBook[0], amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
+                            res.render("order_complete", { date: date, book: resBook[0], amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
                           }
                         }
                       )
@@ -100,45 +99,114 @@ router.post("/complete", (req, res) => {
   }
 });
 
-router.post("/modify/:id", (req, res) => {
-  var code =
-    req.body.card1 +
-    "-" +
-    req.body.card2 +
-    "-" +
-    req.body.card3 +
-    "-" +
-    req.body.card4;
-  var validity = req.body.month + "/" + req.body.year;
-  connection.query(
-    "UPDATE card SET validity=?, code=? WHERE id = ?;",
-    [validity, code, req.params.id],
-    (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
-        res.send(
-          "<script>alert('수정되었습니다.'); location.href='/card';</script>"
-        );
+router.post("/cart", (req, res) => {
+  if (req.session.uid) {
+    var item = req.body.item;
+    connection.query(
+      "SELECT * FROM address WHERE userid=?;",
+      [req.session.uid],
+      (err1, res1, fld1) => {
+        try {
+          connection.query(
+            "SELECT * FROM card WHERE userid=?;",
+            [req.session.uid],
+            (err2, res2, fld2) => {
+              try {
+                connection.query(
+                  "SELECT cart.id, itemid, amount, userid, books.id AS bookid, title, price, convert(amount, signed) * convert(price, signed) AS total FROM cart JOIN books WHERE cart.id IN (?) AND itemid = books.id;",
+                  [item],
+                  (err3, res3, fld3) => {
+                    try {
+                      res.render("order_cart", { address: res1, card: res2, order: res3, signinStatus: true });
+                    } catch (err3) {
+                      throw err3;
+                    }
+                  }
+                )
+              } catch (err2) {
+                throw err2;
+              }
+            }
+          )
+        } catch (err1) {
+          throw err1;
+        }
       }
-    }
-  );
+    );
+  }
+  else {
+    res.send(
+      "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+    );
+  }
 });
 
-router.post("/delete/:id", (req, res) => {
-  connection.query(
-    "DELETE FROM card WHERE id=?;",
-    [req.params.id],
-    (err1, res1, fld1) => {
-      if (err1) {
-        throw err1;
-      } else {
-        res.send(
-          "<script>alert('삭제되었습니다.'); location.href='/card';</script>"
-        );
+router.post("/cart/complete", (req, res) => {
+  if (req.session.uid) {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var date = year + "-" + month + "-" + day;
+    var cartid = req.body.order_cartid.split(',');
+    var books = req.body.order_item.split(',');
+    var amount = req.body.order_amount.split(',');
+    var user = req.session.uid;
+    connection.query(
+      "SELECT * FROM books WHERE id IN (?);",
+      [books],
+      (errBook, resBook, fldBook) => {
+        if (errBook) {
+          throw errBook;
+        } else {
+          connection.query(
+            "SELECT * FROM address WHERE id = ?;",
+            [req.body.sel_address],
+            (errAddress, resAddress, fldAddress) => {
+              if (errAddress) {
+                throw errAddress;
+              } else {
+                connection.query(
+                  "SELECT * FROM card WHERE id = ?;",
+                  [req.body.sel_card],
+                  (errCard, resCard, fldCard) => {
+                    if (errCard) {
+                      throw errCard;
+                    } else {
+                      for (var i = 0; i < books.length; i++) {
+                        connection.query(
+                          "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
+                          [date, books[i], amount[i], req.body.sel_address, req.body.sel_card, user],
+                          (err, res, fld) => {
+                            if (err) {
+                              throw err;
+                            }
+                          }
+                        )
+                      }
+                      res.render("order_cart_complete", { date: date, book: resBook, amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
+                      connection.query(
+                        "DELETE FROM cart WHERE id IN (?);",
+                        [cartid],
+                        (err, res, fld) => {
+                          if (err) {
+                            throw err;
+                          }
+                        }
+                      )
+                    }
+                  }
+                )
+              }
+            }
+          )
+        }
       }
-    }
-  );
+    )
+  } else
+    res.send(
+      "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
+    );
 });
 
 module.exports = router;

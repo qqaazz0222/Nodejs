@@ -42,10 +42,11 @@
                                     <div class="card-body">
                                         <h5 class="card-title">주문 목록</h5>
                                         <% if(order.length == 0) { %>
+                                            <br>
                                             <h5>
                                                 <span class="material-icons md-48" style="color: #FFC008;">report_problem</span>
                                                 주문하신 내역이 없습니다.
-                                            </h5><br>
+                                            </h5>
                                         <% } else{ %>
                                         <% for(var i = 0; i < order.length; i++) { %>
                                         <div class="card" style="margin-bottom: 8px;">
