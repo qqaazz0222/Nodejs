@@ -4,12 +4,6 @@
 
     <body style="background-color: #F8F9FA;">
         <% include ./nav.ejs %>
-        <% var totalamount=0 %>
-        <% var totalprice=0 %>
-        <% for(var i=0; i < order.length; i++) { %>
-        <% totalamount=totalamount + parseInt(order[i].amount) %>
-        <% totalprice=totalprice + (parseInt(order[i].price) * parseInt(order[i].amount)) %>
-        <% } %>
         <div id="main">
             <form method="post">
                 <div class="row">
@@ -20,24 +14,16 @@
                                 <hr>
                                 <span>
                                     <span style="float: left;">상품수</span>
-                                    <span id="totalAmount" style="float: right;">
-                                        <%= totalamount %> 개
-                                    </span>
+                                    <span id="totalAmount" style="float: right;"></span>
                                 </span><br>
                                 <span>
                                     <span style="float: left;">상품금액</span>
-                                    <span id="totalPrice" style="float: right;">
-                                        <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
-                                            ) %> 원
-                                    </span>
+                                    <span id="totalPrice" style="float: right;"></span>
                                 </span><br>
                                 <hr>
                                 <span>
                                     <h5 style="float: left;">총 결제금액</h5>
-                                    <h3 id="payPrice" style="float: right;">
-                                        <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
-                                            ) %> 원
-                                    </h3>
+                                    <h3 id="payPrice" style="float: right;"></h3>
                                 </span><br>
                                 <button class="btn btn-primary" type="submit" onclick="javascript: form.action='order/cart';"
                                     style="width: 100%;">구매하기</button>
@@ -102,29 +88,22 @@
             let total_amount = 0;
             let total_price = 0;
             let price = $('.price');
-            $('#totalAmount').text(total_amount);
-                $('#totalPrice').text(total_price);
-                $('#payPrice').text(total_price);
+            $('#totalAmount').text(total_amount + "개");
+                $('#totalPrice').text(total_price + "원");
+                $('#payPrice').text(total_price + "원");
 
             $('input').click(function() {
                 let selId = parseInt(this.id.slice(4));
                 if ($(this).is(':checked')) {
                     total_amount = total_amount + 1;
                     total_price = total_price + parseInt(price[selId].textContent.replace(/,/g, ''));
-                    console.log(this.id);
-                    console.log(total_amount);
-                    console.log(total_price);
-                    
                 } else {
                     total_amount = total_amount - 1;
                     total_price = total_price - parseInt(price[selId].textContent.replace(/,/g, ''));
-                    console.log(this.id);
-                    console.log(total_amount);
-                    console.log(total_price);
                 }
-                $('#totalAmount').text(total_amount);
-                $('#totalPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-                $('#payPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                $('#totalAmount').text(total_amount + "개");
+                $('#totalPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+                $('#payPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
             });
         </script>
     </body>
