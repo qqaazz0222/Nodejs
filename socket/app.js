@@ -1,30 +1,44 @@
-var app = require('express')();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var io = require('socket.io')(app);
 
-app.set('view engine', 'ejs'); // 렌더링 엔진 모드를 ejs로 설정
-app.set('views',  __dirname + '/views');    // ejs이 있는 폴더를 지정
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var socketRouter = require('./routes/socket')(io);
 
-app.get('/', (req, res) => {
-    res.render('index');    // index.ejs을 사용자에게 전달
-})
+var app = express();
 
-io.on('connection', (socket) => {   //연결이 들어오면 실행되는 이벤트
-    // socket 변수에는 실행 시점에 연결한 상대와 연결된 소켓의 객체가 들어있다.
-    
-    //socket.emit으로 현재 연결한 상대에게 신호를 보낼 수 있다.
-    socket.emit('usercount', io.engine.clientsCount);
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-    // on 함수로 이벤트를 정의해 신호를 수신할 수 있다.
-    socket.on('message', (msg) => {
-        //msg에는 클라이언트에서 전송한 매개변수가 들어온다. 이러한 매개변수의 수에는 제한이 없다.
-        console.log('Message received: ' + msg);
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-        // io.emit으로 연결된 모든 소켓들에 신호를 보낼 수 있다.
-        io.emit('message', msg);
-    });
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/socket', socketRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-server.listen(3000, function() {
-  console.log('Listening on http://localhost:3000/');
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
+
+module.exports = app;
