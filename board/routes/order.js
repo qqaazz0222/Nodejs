@@ -22,10 +22,21 @@ router.post("/", (req, res) => {
             "SELECT * FROM card WHERE userid=?;",
             [req.session.uid],
             (err2, res2, fld2) => {
-              if (err2) {
-                throw err2;
-              } else {
+              try {
+                connection.query(
+                  "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                  [amount, book.id],
+                  (err3, res3, fld3) => {
+                    try {
+                      
+                    } catch(err3) {
+                      throw err3;
+                    }
+                  }
+                )
                 res.render("order", { book: book, amount: amount, address: res1, card: res2, num1: res1.length, num2: res2.length, signinStatus: true });
+              } catch (err2) {
+                throw err2;
               }
             }
           )
@@ -113,10 +124,23 @@ router.post("/cart", (req, res) => {
             (err2, res2, fld2) => {
               try {
                 connection.query(
-                  "SELECT cart.id, itemid, amount, userid, books.id AS bookid, title, price, convert(amount, signed) * convert(price, signed) AS total FROM cart JOIN books WHERE cart.id IN (?) AND itemid = books.id;",
+                  "SELECT cart.id, itemid, cart.amount AS amount, userid, books.id AS bookid, title, price, convert(cart.amount, signed) * convert(price, signed) AS total FROM cart JOIN books WHERE cart.id IN (?) AND itemid = books.id;",
                   [item],
                   (err3, res3, fld3) => {
                     try {
+                      for(var i = 0; i < res3.length; i++) {
+                        connection.query(
+                          "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                          [res3[i].amount, res3[i].bookid],
+                          (err3, res3, fld3) => {
+                            try {
+                              return 0;                       
+                            } catch(err3) {
+                              throw err3;
+                            }
+                          }
+                        )
+                      }
                       res.render("order_cart", { address: res1, card: res2, order: res3, signinStatus: true });
                     } catch (err3) {
                       throw err3;

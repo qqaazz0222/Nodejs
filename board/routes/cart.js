@@ -7,10 +7,11 @@ router.get("/", (req, res) => {
   if (req.session.uid) {
     console.log(req.session.uid);
     connection.query(
-      "SELECT cart.id, itemid, amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;",
+      "SELECT cart.id, itemid, cart.amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;",
       [req.session.uid],
       (err1, res1, fld1) => {
         try {
+          console.log(res1);
           res.render("cart", {
             order: res1,
             signinStatus: true,
