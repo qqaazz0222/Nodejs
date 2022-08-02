@@ -20,13 +20,13 @@
                                 <hr>
                                 <span>
                                     <span style="float: left;">상품수</span>
-                                    <span style="float: right;">
+                                    <span id="totalAmount" style="float: right;">
                                         <%= totalamount %> 개
                                     </span>
                                 </span><br>
                                 <span>
                                     <span style="float: left;">상품금액</span>
-                                    <span style="float: right;">
+                                    <span id="totalPrice" style="float: right;">
                                         <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
                                             ) %> 원
                                     </span>
@@ -34,7 +34,7 @@
                                 <hr>
                                 <span>
                                     <h5 style="float: left;">총 결제금액</h5>
-                                    <h3 style="float: right;">
+                                    <h3 id="payPrice" style="float: right;">
                                         <%= totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
                                             ) %> 원
                                     </h3>
@@ -81,9 +81,10 @@
                                                             <%= order[i].title %>
                                                         </span><br>
                                                         <span style="color: #6c757d;">
-                                                            <%= order[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
-                                                            ) %>원, <%= order[i].amount
-                                                            %>개
+                                                            <span class="price"><%= order[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                                                                ) %></span>
+                                                            원, <%= order[i].amount
+                                                            %> 개
                                                         </span>
                                                     </div>
                                                 </div>
@@ -97,6 +98,35 @@
                 </div>
             </form>
         </div>
+        <script>
+            let total_amount = 0;
+            let total_price = 0;
+            let price = $('.price');
+            $('#totalAmount').text(total_amount);
+                $('#totalPrice').text(total_price);
+                $('#payPrice').text(total_price);
+
+            $('input').click(function() {
+                let selId = parseInt(this.id.slice(4));
+                if ($(this).is(':checked')) {
+                    total_amount = total_amount + 1;
+                    total_price = total_price + parseInt(price[selId].textContent.replace(/,/g, ''));
+                    console.log(this.id);
+                    console.log(total_amount);
+                    console.log(total_price);
+                    
+                } else {
+                    total_amount = total_amount - 1;
+                    total_price = total_price - parseInt(price[selId].textContent.replace(/,/g, ''));
+                    console.log(this.id);
+                    console.log(total_amount);
+                    console.log(total_price);
+                }
+                $('#totalAmount').text(total_amount);
+                $('#totalPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                $('#payPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            });
+        </script>
     </body>
 
 </html>
