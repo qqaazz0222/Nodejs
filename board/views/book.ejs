@@ -37,12 +37,10 @@
                                         </div>
                                         <div class="col-5">
                                             <div class="input-group mb-4">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="decrease()">-</button>
+                                                <button id="decrease" class="btn btn-outline-secondary" type="button">-</button>
                                                 <input id="amount" name="amount" type="text" class="form-control" value="1"
                                                     style="text-align: center ; border-color: #6c757d;">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="increase()">+</button>
+                                                <button id="increase" class="btn btn-outline-secondary" type="button">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -121,19 +119,33 @@
             <script>
                 var amount = 1;
                 var price = parseInt(`<%=book.price%>`);
-                document.querySelector("#price").textContent = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원";
-                function decrease() {
-                    if (amount > 1) {
-                        amount = amount - 1;
-                        document.querySelector("#amount").value = amount;
-                        document.querySelector("#price").textContent = (amount * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원";
+                var stock = parseInt(`<%=book.amount%>`);
+                console.log(stock);
+                $('#price').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원");
+                $('#amount').change(function() {
+                    if(parseInt(this.value) >= 1 && parseInt(this.value) <= stock) {
+                        amount = parseInt(this.value);
+                        console.log(amount);
+                    } else {
+                        alert(`1과 ${stock}사이의 값을 입력해주세요.`);
+                        $('#amount').val(amount);
                     }
-                };
-                function increase() {
-                    amount = amount + 1;
-                    document.querySelector("#amount").value = amount;
-                    document.querySelector("#price").textContent = (amount * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원";
-                };
+                    
+                })
+                $('#increase').click(function() {
+                    if(amount < stock) {
+                        amount = amount + 1;
+                        $('#amount').val(amount);
+                        $("#price").text((amount * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원");
+                    }
+                })
+                $('#decrease').click(function() {
+                    if(amount > 1) {
+                        amount = amount - 1;
+                        $('#amount').val(amount);
+                        $("#price").text((amount * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',' ) + "원");
+                    }
+                })
             </script>
     </body>
 

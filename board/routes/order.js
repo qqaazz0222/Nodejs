@@ -24,7 +24,7 @@ router.post("/", (req, res) => {
             (err2, res2, fld2) => {
               try {
                 connection.query(
-                  "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                  "UPDATE books SET amount = amount - ? WHERE id = ?;", //수정해야함 -> 주문 성공시 재고 감소로
                   [amount, book.id],
                   (err3, res3, fld3) => {
                     try {

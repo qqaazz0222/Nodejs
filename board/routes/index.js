@@ -40,16 +40,8 @@ router.get("/", (req, res) => {
       }
     } catch (err1) {
       throw err1;
-    } 
+    }
   });
-});
-
-router.get("/test", (req, res) => {
-  if (req.session.uid) {
-    res.render("order_complete", { signinStatus: true });
-  } else {
-    res.render("order_complete", { signinStatus: false });
-  }
 });
 
 router.get("/book/:id", (req, res) => {
@@ -59,10 +51,14 @@ router.get("/book/:id", (req, res) => {
       [req.params.id],
       (err1, res1, fld1) => {
         try {
-          res.render("book", { bookid: req.params.id ,book: res1[0], signinStatus: true });
+          res.render("book", {
+            bookid: req.params.id,
+            book: res1[0],
+            signinStatus: true,
+          });
         } catch (err1) {
           throw err1;
-        } 
+        }
       }
     );
   } else {
