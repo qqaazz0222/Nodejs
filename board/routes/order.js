@@ -23,17 +23,6 @@ router.post("/", (req, res) => {
             [req.session.uid],
             (err2, res2, fld2) => {
               try {
-                connection.query(
-                  "UPDATE books SET amount = amount - ? WHERE id = ?;", //수정해야함 -> 주문 성공시 재고 감소로
-                  [amount, book.id],
-                  (err3, res3, fld3) => {
-                    try {
-                      
-                    } catch(err3) {
-                      throw err3;
-                    }
-                  }
-                )
                 res.render("order", { book: book, amount: amount, address: res1, card: res2, num1: res1.length, num2: res2.length, signinStatus: true });
               } catch (err2) {
                 throw err2;
@@ -82,6 +71,17 @@ router.post("/complete", (req, res) => {
                         [date, req.body.sel_book, amount, req.body.sel_address, req.body.sel_card, user],
                         (err1, res1, fld1) => {
                           try {
+                            connection.query(
+                                "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                                [amount, req.body.sel_book],
+                                (err2, res2, fld2) => {
+                                  try {
+                                    
+                                  } catch(err2) {
+                                    throw err2;
+                                  }
+                                }
+                              )
                             res.render("order_complete", { date: date, book: resBook[0], amount: amount, address: resAddress[0], card: resCard[0], signinStatus: true });
                           } catch (err1) {
                             throw err1;
