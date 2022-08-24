@@ -135,6 +135,7 @@ router.post("/complete", (req, res) => {
 router.post("/cart", (req, res) => {
   if (req.session.uid) {
     var item = req.body.item;
+    console.log(item);
     connection.query(
       "SELECT * FROM address WHERE userid=?;",
       [req.session.uid],
