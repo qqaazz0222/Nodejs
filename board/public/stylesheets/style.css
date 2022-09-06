@@ -27,3 +27,14 @@ a {
     float: left;
     margin-bottom: 15px;
 }
+
+#notice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00B7FF;
+    height: 64px;
+}
+#notice>.content {
+    width: 960px;
+}
