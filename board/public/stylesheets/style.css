@@ -38,3 +38,9 @@ a {
 #notice>.content {
     width: 960px;
 }
+
+.test {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}
