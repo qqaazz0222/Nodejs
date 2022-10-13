@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     );
 });
 
-router.post("/", async(req, res) => {
+router.post("/", async (req, res) => {
     try {
         if (req.session.uid) {
             const book = {
@@ -18,8 +18,14 @@ router.post("/", async(req, res) => {
                 price: req.body.bookprice,
             };
             const amount = req.body.amount;
-            const address = await pool.query("SELECT * FROM address WHERE userid=?;", [req.session.uid]);
-            const card = await pool.query("SELECT * FROM card WHERE userid=?;", [req.session.uid]);
+            const address = await pool.query(
+                "SELECT * FROM address WHERE userid=?;",
+                [req.session.uid]
+            );
+            const card = await pool.query(
+                "SELECT * FROM card WHERE userid=?;",
+                [req.session.uid]
+            );
             res.render("order", {
                 book: book,
                 amount: amount,
@@ -81,7 +87,7 @@ router.post("/", async(req, res) => {
     // }
 });
 
-router.post("/complete", async(req, res) => {
+router.post("/complete", async (req, res) => {
     try {
         if (req.session.uid) {
             const today = new Date();
@@ -91,22 +97,39 @@ router.post("/complete", async(req, res) => {
             const date = year + "-" + month + "-" + day;
             const amount = req.body.amount;
             const user = req.session.uid;
-            const book = await pool.query("SELECT * FROM books WHERE id = ?;", [req.body.sel_book]);
-            const address = await pool.query("SELECT * FROM address WHERE id = ?;", [req.body.sel_address]);
-            const card = await pool.query("SELECT * FROM card WHERE id = ?;", [req.body.sel_card]);
-            const order = await pool.query("INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);", [date, req.body.sel_book, amount, req.body.sel_address, req.body.sel_card, user]);
-            const bookAmount = await pool.query("UPDATE books SET amount = amount - ? WHERE id = ?;", [amount,req.body.sel_book]);
-            res.render(
-                "order_complete",
-                {
-                    date: date,
-                    book: book[0][0],
-                    amount: amount,
-                    address: address[0][0],
-                    card: card[0][0],
-                    signinStatus: true,
-                }
+            const book = await pool.query("SELECT * FROM books WHERE id = ?;", [
+                req.body.sel_book,
+            ]);
+            const address = await pool.query(
+                "SELECT * FROM address WHERE id = ?;",
+                [req.body.sel_address]
             );
+            const card = await pool.query("SELECT * FROM card WHERE id = ?;", [
+                req.body.sel_card,
+            ]);
+            const order = await pool.query(
+                "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
+                [
+                    date,
+                    req.body.sel_book,
+                    amount,
+                    req.body.sel_address,
+                    req.body.sel_card,
+                    user,
+                ]
+            );
+            const bookAmount = await pool.query(
+                "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                [amount, req.body.sel_book]
+            );
+            res.render("order_complete", {
+                date: date,
+                book: book[0][0],
+                amount: amount,
+                address: address[0][0],
+                card: card[0][0],
+                signinStatus: true,
+            });
         } else {
             res.send(
                 "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"
@@ -208,13 +231,22 @@ router.post("/complete", async(req, res) => {
     // }
 });
 
-router.post("/cart", async(req, res) => {
+router.post("/cart", async (req, res) => {
     try {
         if (req.session.uid) {
             const item = req.body.item;
-            const address = await pool.query("SELECT * FROM address WHERE userid=?;", [req.session.uid]);
-            const card = await pool.query("SELECT * FROM card WHERE userid=?;", [req.session.uid]);
-            const order = await pool.query("SELECT cart.id, itemid, cart.amount AS amount, userid, books.id AS bookid, title, price, convert(cart.amount, signed) * convert(price, signed) AS total FROM cart JOIN books WHERE cart.id IN (?) AND itemid = books.id;", [item]);
+            const address = await pool.query(
+                "SELECT * FROM address WHERE userid=?;",
+                [req.session.uid]
+            );
+            const card = await pool.query(
+                "SELECT * FROM card WHERE userid=?;",
+                [req.session.uid]
+            );
+            const order = await pool.query(
+                "SELECT cart.id, itemid, cart.amount AS amount, userid, books.id AS bookid, title, price, convert(cart.amount, signed) * convert(price, signed) AS total FROM cart JOIN books WHERE cart.id IN (?) AND itemid = books.id;",
+                [item]
+            );
             res.render("order_cart", {
                 address: address[0],
                 card: card[0],
@@ -276,7 +308,7 @@ router.post("/cart", async(req, res) => {
     // }
 });
 
-router.post("/cart/complete", async(req, res) => {
+router.post("/cart/complete", async (req, res) => {
     try {
         if (req.session.uid) {
             const today = new Date();
@@ -288,12 +320,33 @@ router.post("/cart/complete", async(req, res) => {
             const books = req.body.order_item.split(",");
             const amount = req.body.order_amount.split(",");
             const user = req.session.uid;
-            const book = await pool.query("SELECT * FROM books WHERE id IN (?);", [books]);
-            const address = await pool.query("SELECT * FROM address WHERE id = ?;", [req.body.sel_address]);
-            const card = await pool.query("SELECT * FROM card WHERE id = ?;", [req.body.sel_card]);
+            const book = await pool.query(
+                "SELECT * FROM books WHERE id IN (?);",
+                [books]
+            );
+            const address = await pool.query(
+                "SELECT * FROM address WHERE id = ?;",
+                [req.body.sel_address]
+            );
+            const card = await pool.query("SELECT * FROM card WHERE id = ?;", [
+                req.body.sel_card,
+            ]);
             for (var i = 0; i < books.length; i++) {
-                let order = await pool.query("INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);", [date, books[i], amount[i], req.body.sel_address, req.body.sel_card, user]);
-                let bookAmount = await pool.query("UPDATE books SET amount = amount - ? WHERE id = ?;", [amount[i], books[i]]);
+                let order = await pool.query(
+                    "INSERT INTO orders VALUES (null, ?, ?, ?, ?, ?, ?);",
+                    [
+                        date,
+                        books[i],
+                        amount[i],
+                        req.body.sel_address,
+                        req.body.sel_card,
+                        user,
+                    ]
+                );
+                let bookAmount = await pool.query(
+                    "UPDATE books SET amount = amount - ? WHERE id = ?;",
+                    [amount[i], books[i]]
+                );
             }
             res.render("order_cart_complete", {
                 date: date,
@@ -303,7 +356,9 @@ router.post("/cart/complete", async(req, res) => {
                 card: card[0][0],
                 signinStatus: true,
             });
-            const cart = await pool.query("DELETE FROM cart WHERE id IN (?);", [cartid]);
+            const cart = await pool.query("DELETE FROM cart WHERE id IN (?);", [
+                cartid,
+            ]);
         } else
             res.send(
                 "<script>alert('잘못된 접근입니다.'); location.href='/';</script>"

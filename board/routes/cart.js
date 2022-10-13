@@ -3,10 +3,13 @@ const router = express.Router();
 const connection = require("../db/db");
 const pool = require("../db/pool");
 
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
     try {
         if (req.session.uid) {
-            const cart = await pool.query("SELECT cart.id, itemid, cart.amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;", [req.session.uid]);
+            const cart = await pool.query(
+                "SELECT cart.id, itemid, cart.amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;",
+                [req.session.uid]
+            );
             res.render("cart", {
                 order: cart[0],
                 signinStatus: true,
@@ -17,7 +20,7 @@ router.get("/", async(req, res) => {
             );
         }
     } catch (error) {
-        return res.redirect("/cart")
+        return res.redirect("/cart");
     }
     // [수정] connection -> pool 변경
     // if (req.session.uid) {
@@ -43,7 +46,7 @@ router.get("/", async(req, res) => {
     // }
 });
 
-router.post("/", async(req, res) => {
+router.post("/", async (req, res) => {
     try {
         if (req.session.uid) {
             const book = {
@@ -52,7 +55,10 @@ router.post("/", async(req, res) => {
                 price: req.body.bookprice,
             };
             const amount = req.body.amount;
-            const cart = await pool.query("INSERT INTO cart VALUES (null, ?, ?, ?);", [book.id, amount, req.session.uid]);
+            const cart = await pool.query(
+                "INSERT INTO cart VALUES (null, ?, ?, ?);",
+                [book.id, amount, req.session.uid]
+            );
             res.redirect("/");
         } else {
             res.send(
@@ -60,7 +66,7 @@ router.post("/", async(req, res) => {
             );
         }
     } catch (error) {
-        return res.redirect("/cart")
+        return res.redirect("/cart");
     }
     // [수정] connection -> pool 변경
     // if (req.session.uid) {
@@ -88,7 +94,7 @@ router.post("/", async(req, res) => {
     // }
 });
 
-router.post("/modify/:id", async(req, res) => {
+router.post("/modify/:id", async (req, res) => {
     try {
         const code =
             req.body.card1 +
@@ -99,12 +105,15 @@ router.post("/modify/:id", async(req, res) => {
             "-" +
             req.body.card4;
         const validity = req.body.month + "/" + req.body.year;
-        const cart = await pool.query("UPDATE card SET validity=?, code=? WHERE id = ?;", [validity, code, req.params.id]);
+        const cart = await pool.query(
+            "UPDATE card SET validity=?, code=? WHERE id = ?;",
+            [validity, code, req.params.id]
+        );
         res.send(
             "<script>alert('수정되었습니다.'); location.href='/card';</script>"
         );
     } catch (error) {
-        return res.redirect("/cart")
+        return res.redirect("/cart");
     }
     // [수정] connection -> pool 변경
     // connection.query(
@@ -122,11 +131,10 @@ router.post("/modify/:id", async(req, res) => {
     // );
 });
 
-router.post("/delete/:id", async(req, res) => {
+router.post("/delete/:id", async (req, res) => {
     try {
-        
     } catch (error) {
-        return res.redirect("/cart")
+        return res.redirect("/cart");
     }
     // [수정] connection -> pool 변경
     connection.query(

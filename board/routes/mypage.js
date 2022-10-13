@@ -3,11 +3,17 @@ const router = express.Router();
 const connection = require("../db/db");
 const pool = require("../db/pool");
 
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
     try {
         if (req.session.uid) {
-            const user = await pool.query("SELECT * FROM orders JOIN books, address, card WHERE order_item = books.id and address_id = address.id and card_id = card.id and user_id = ?;", [req.session.uid]);
-            const orders = await pool.query("SELECT * FROM orders JOIN books, address, card WHERE order_item = books.id and address_id = address.id and card_id = card.id and user_id = ?;", [req.session.uid]);
+            const user = await pool.query(
+                "SELECT * FROM orders JOIN books, address, card WHERE order_item = books.id and address_id = address.id and card_id = card.id and user_id = ?;",
+                [req.session.uid]
+            );
+            const orders = await pool.query(
+                "SELECT * FROM orders JOIN books, address, card WHERE order_item = books.id and address_id = address.id and card_id = card.id and user_id = ?;",
+                [req.session.uid]
+            );
             res.render("mypage", {
                 user: user[0][0],
                 order: orders[0],

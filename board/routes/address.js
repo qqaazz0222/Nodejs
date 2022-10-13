@@ -3,10 +3,13 @@ const router = express.Router();
 const connection = require("../db/db");
 const pool = require("../db/pool");
 
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
     try {
         if (req.session.uid) {
-            const address = await pool.query("SELECT * FROM address WHERE userid=?;", [req.session.uid]);
+            const address = await pool.query(
+                "SELECT * FROM address WHERE userid=?;",
+                [req.session.uid]
+            );
             res.render("address", {
                 address: address[0],
                 num: address[0].length,
@@ -44,11 +47,14 @@ router.get("/", async(req, res) => {
     // }
 });
 
-router.post("/add", async(req, res) => {
+router.post("/add", async (req, res) => {
     try {
         const user = req.session.uid;
-        const {zipcode, main, detail} = req.body;
-        const address = await pool.query("INSERT INTO address VALUES (null, ?, ?, ?, ?);", [zipcode, main, detail, user]);
+        const { zipcode, main, detail } = req.body;
+        const address = await pool.query(
+            "INSERT INTO address VALUES (null, ?, ?, ?, ?);",
+            [zipcode, main, detail, user]
+        );
         res.redirect("/address");
     } catch (error) {
         console.log(error);
@@ -73,10 +79,13 @@ router.post("/add", async(req, res) => {
     // );
 });
 
-router.post("/modify/:id", async(req, res) => {
+router.post("/modify/:id", async (req, res) => {
     try {
-        const {zipcode, main, detail} = req.body;
-        const address = await pool.query("UPDATE address SET zipcode=?, main=?, detail=? WHERE id = ?;", [zipcode, main, detail, req.params.id]);
+        const { zipcode, main, detail } = req.body;
+        const address = await pool.query(
+            "UPDATE address SET zipcode=?, main=?, detail=? WHERE id = ?;",
+            [zipcode, main, detail, req.params.id]
+        );
         res.send(
             "<script>alert('수정되었습니다.'); location.href='/address';</script>"
         );
@@ -100,9 +109,11 @@ router.post("/modify/:id", async(req, res) => {
     // );
 });
 
-router.post("/delete/:id", async(req, res) => {
+router.post("/delete/:id", async (req, res) => {
     try {
-        const address = await pool.query("DELETE FROM address WHERE id=?;", [req.params.id]);
+        const address = await pool.query("DELETE FROM address WHERE id=?;", [
+            req.params.id,
+        ]);
         res.send(
             "<script>alert('삭제되었습니다.'); location.href='/address';</script>"
         );
