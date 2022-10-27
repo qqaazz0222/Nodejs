@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./head.ejs%>
+</head>
+
+<body id="signin">
+    <div class="card text-center">
+        <div class="card-header">
+            로그인
+        </div>
+        <div class="card-body">
+            <br>
+            <h5>도서구매사이트를 이용해보세요.</h5><br>
+            <form action="signin" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><span
+                            class="material-symbols-outlined">account_circle</span></span>
+                    <input type="text" class="form-control" name="id" placeholder="아이디를 입력하세요." aria-label="UserID"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><span
+                            class="material-symbols-outlined">lock</span></span>
+                    <input type="password" class="form-control" name="pw" placeholder="비밀번호를 입력하세요." aria-label="UserPW"
+                        aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-outline-primary">로그인</button>
+                <a class="btn btn-primary" href="/" role="button">메인페이지로</a>
+            </form>
+        </div>
+        <div class="card-footer text-muted">
+            도서구매사이트
+        </div>
+    </div>
+</body>
+
+</html>

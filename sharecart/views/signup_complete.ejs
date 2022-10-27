@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./nav.ejs %>
+            <div id="signup">
+                <div class="card text-center">
+                    <div class="card-header">
+                        회원가입 성공
+                    </div>
+                    <div class="card-body"><br>
+                        <p style="font-size: 64px;">🎉</p>
+                        <h5>
+                            <%= name %>님 회원가입을 축하합니다!
+                        </h5><br>
+                        <a class="btn btn-outline-primary" href="/signin" role="button">로그인</a>
+                        <a class="btn btn-primary" href="/" role="button">메인페이지로</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        도서구매사이트
+                    </div>
+                </div>
+            </div>
+    </body>
+
+</html>
