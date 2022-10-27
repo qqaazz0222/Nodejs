@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html>
-<% include ./head.ejs %>
+    <% include ./head.ejs %>
 
-    <body style="background-color: #F8F9FA;">
+    <body style="background-color: #f8f9fa">
         <% include ./nav.ejs %>
         <div id="main">
             <form method="post">
                 <div class="row">
                     <div class="col-4">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%">
                             <div class="card-body">
                                 <h5>결제정보</h5>
-                                <hr>
+                                <hr />
                                 <span>
-                                    <span style="float: left;">상품수</span>
-                                    <span id="totalAmount" style="float: right;"></span>
-                                </span><br>
+                                    <span style="float: left">상품수</span>
+                                    <span
+                                        id="totalAmount"
+                                        style="float: right"
+                                    ></span> </span
+                                ><br />
                                 <span>
-                                    <span style="float: left;">상품금액</span>
-                                    <span id="totalPrice" style="float: right;"></span>
-                                </span><br>
-                                <hr>
+                                    <span style="float: left">상품금액</span>
+                                    <span
+                                        id="totalPrice"
+                                        style="float: right"
+                                    ></span> </span
+                                ><br />
+                                <hr />
                                 <span>
-                                    <h5 style="float: left;">총 결제금액</h5>
-                                    <h3 id="payPrice" style="float: right;"></h3>
-                                </span><br>
-                                <button class="btn btn-primary" type="submit" onclick="javascript: form.action='order/cart';"
-                                    style="width: 100%;">구매하기</button>
+                                    <h5 style="float: left">총 결제금액</h5>
+                                    <h3
+                                        id="payPrice"
+                                        style="float: right"
+                                    ></h3> </span
+                                ><br />
+                                <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    onclick="javascript: form.action='order/cart';"
+                                    style="width: 100%"
+                                >
+                                    구매하기
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -35,51 +50,71 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">장바구니 목록</h5>
+                                        <h5 class="card-title">
+                                            장바구니 목록
+                                        </h5>
                                         <% if(order.length==0) { %>
-                                        <br>
+                                        <br />
                                         <h5>
-                                            <span class="material-icons md-48"
-                                                style="color: #FFC008;">report_problem</span>
+                                            <span
+                                                class="material-icons md-48"
+                                                style="color: #ffc008"
+                                                >report_problem</span
+                                            >
                                             장바구니에 담은 도서가 없습니다.
                                         </h5>
-                                        <% } else { %>
-                                        <% for(var i=0; i < order.length; i++) { %>
-                                            <label for="item<%= i %>" style="width: 100%;">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text">
-                                                        <input id="item<%= i %>" class="form-check-input mt-0" name="item"
-                                                            type="checkbox" value="<%= order[i].id %>"
-                                                            aria-label="<%= order[i].id %>">
-                                                    </div>
-                                                    <div class="form-control">
-                                                        <button type="submit"
-                                                            onclick="javascript: form.action='cart/delete/<%= order[i].id %>';"
-                                                            value="<%= order[i].id %>"
-                                                            class="btn-close"
-                                                            aria-label="Close"
-                                                            style="float: right;"></button>
-                                                        <span>
-                                                            <%= order[i].order_date %> 도서
-                                                            <%= i+1 %>
-                                                        </span><br>
-                                                        <span style="font-size: large;">
-                                                            <%= order[i].title %>
-                                                        </span><br>
-                                                        <span style="color: #6c757d;">
-                                                            <span class="price"><%= order[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
-                                                                ) %></span>
-                                                            원, <%= order[i].amount
-                                                            %> 개
-                                                        </span>
-                                                    </div>
+                                        <% } else { %> <% for(var i=0; i <
+                                        order.length; i++) { %>
+                                        <label
+                                            for="item<%= i %>"
+                                            style="width: 100%"
+                                        >
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-text">
+                                                    <input
+                                                        id="item<%= i %>"
+                                                        class="form-check-input mt-0"
+                                                        name="item"
+                                                        type="checkbox"
+                                                        value="<%= order[i].id %>"
+                                                        aria-label="<%= order[i].id %>"
+                                                    />
                                                 </div>
-                                            </label>
+                                                <div class="form-control">
+                                                    <button
+                                                        type="submit"
+                                                        onclick="javascript: form.action='cart/delete/<%= order[i].id %>';"
+                                                        value="<%= order[i].id %>"
+                                                        class="btn-close"
+                                                        aria-label="Close"
+                                                        style="float: right"
+                                                    ></button>
+                                                    <span>
+                                                        도서 <%= i+1 %> </span
+                                                    ><br />
+                                                    <span
+                                                        style="font-size: large"
+                                                    >
+                                                        <%= order[i].id %> </span
+                                                    ><br />
+                                                    <span
+                                                        style="color: #6c757d"
+                                                    >
+                                                        <span class="price"
+                                                            >0</span
+                                                        >
+                                                        원, <%= order[i].amount
+                                                        %> 개
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </label>
                                         <% } } %>
                                     </div>
                                 </div>
                             </div>
-                        </div><br>
+                        </div>
+                        <br />
                     </div>
                 </div>
             </form>
@@ -87,25 +122,36 @@
         <script>
             let total_amount = 0;
             let total_price = 0;
-            let price = $('.price');
-            $('#totalAmount').text(total_amount + "개");
-                $('#totalPrice').text(total_price + "원");
-                $('#payPrice').text(total_price + "원");
+            let price = $(".price");
+            $("#totalAmount").text(total_amount + "개");
+            $("#totalPrice").text(total_price + "원");
+            $("#payPrice").text(total_price + "원");
 
-            $('input').click(function() {
+            $("input").click(function () {
                 let selId = parseInt(this.id.slice(4));
-                if ($(this).is(':checked')) {
+                if ($(this).is(":checked")) {
                     total_amount = total_amount + 1;
-                    total_price = total_price + parseInt(price[selId].textContent.replace(/,/g, ''));
+                    total_price =
+                        total_price +
+                        parseInt(price[selId].textContent.replace(/,/g, ""));
                 } else {
                     total_amount = total_amount - 1;
-                    total_price = total_price - parseInt(price[selId].textContent.replace(/,/g, ''));
+                    total_price =
+                        total_price -
+                        parseInt(price[selId].textContent.replace(/,/g, ""));
                 }
-                $('#totalAmount').text(total_amount + "개");
-                $('#totalPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
-                $('#payPrice').text(total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원");
+                $("#totalAmount").text(total_amount + "개");
+                $("#totalPrice").text(
+                    total_price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"
+                );
+                $("#payPrice").text(
+                    total_price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"
+                );
             });
         </script>
     </body>
-
 </html>

@@ -6,12 +6,17 @@ const pool = require("../db/pool");
 router.get("/", async (req, res) => {
     try {
         if (req.session.uid) {
-            const cart = await pool.query(
-                "SELECT cart.id, itemid, cart.amount, books.id AS bookid, books.title AS title, books.price AS price FROM cart JOIN books WHERE itemid = books.id AND userid = ?;",
+            const cartlist = await pool.query(
+                "SELECT targetcart FROM cartlist WHERE uid = ?",
                 [req.session.uid]
             );
+            const cartvalue = await pool.query(
+                "SELECT * FROM cartvalue WHERE cartid = ?",
+                [cartlist[0][0].targetcart]
+            );
+            console.log(cartvalue[0]);
             res.render("cart", {
-                order: cart[0],
+                order: cartvalue[0],
                 signinStatus: true,
             });
         } else {
@@ -20,7 +25,7 @@ router.get("/", async (req, res) => {
             );
         }
     } catch (error) {
-        return res.redirect("/cart");
+        return res.redirect("/");
     }
 });
 
@@ -33,10 +38,22 @@ router.post("/", async (req, res) => {
                 price: req.body.bookprice,
             };
             const amount = req.body.amount;
-            const cart = await pool.query(
-                "INSERT INTO cart VALUES (null, ?, ?, ?);",
-                [book.id, amount, req.session.uid]
+            const cartlist = await pool.query(
+                "SELECT * FROM cartlist WHERE uid = ?",
+                [req.session.uid]
             );
+            console.log(cartlist[0].length);
+            if (cartlist[0].length == 0) {
+                const create_cartlist = await pool.query(
+                    "INSERT INTO cartlist VALUES (null, ?, ?);",
+                    [req.session.uid + "_C", req.session.uid]
+                );
+            }
+            const cartvalue = await pool.query(
+                "INSERT INTO cartvalue VALUES (null, ?, ?, ?);",
+                [book.id, amount, req.session.uid + "_C"]
+            );
+            console.log("추가");
             res.redirect("/");
         } else {
             res.send(
