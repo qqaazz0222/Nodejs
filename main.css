@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.header,
+.footer {
+    display: block;
+    background-color: red;
+    width: 100vw;
+    height: 200px;
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 2000px;
+}
+
+.item {
+    display: block;
+    width: 100px;
+    height: 100px;
+    background: blue;
+}
